@@ -1,0 +1,56 @@
+{
+  "name": "aimarket_server",
+  "private": true,
+  "version": "0.0.1",
+  "description": "aimarket_server",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ATMatrix/aimarket_server.git"
+  },
+  "keywords": [
+    "ai",
+    "market"
+  ],
+  "author": "ATMatrix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ATMatrix/aimarket_server/issues"
+  },
+  "homepage": "https://github.com/ATMatrix/aimarket_server#readme",
+  "scripts": {
+    "start": "babel-node src/server.js",
+    "build": "babel src/ --out-dir ./production",
+    "buildTest": "babel ./src/test.js --out-dir ./production",
+    "lint": "eslint --ext .js src test",
+    "precommit": "npm run lint"
+  },
+  "engines": {
+    "install-node": "8.4.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "cors": "^2.8.4",
+    "express": "^4.15.4",
+    "graphql": "^0.10.5",
+    "graphql-server-express": "^1.1.2",
+    "graphql-tools": "^1.2.2",
+    "moment": "^2.18.1",
+    "mysql": "^2.14.1",
+    "node-fetch": "^1.7.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-import": "^1.5.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-graphql": "^1.3.0",
+    "eslint-plugin-import": "^2.2.0",
+    "expect": "^1.20.2",
+    "husky": "^0.12.0",
+    "pre-commit": "^1.2.2"
+  }
+}

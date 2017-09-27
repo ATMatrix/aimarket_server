@@ -1,0 +1,5 @@
+mysqljs bug:
+Parser.js :80  throw err; // Rethrow non-MySQL errors
+Not catch!
+Protocol.js :145  sequence._callSite = sequence._callSite || new Error();
+Not catch!
