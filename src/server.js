@@ -97,9 +97,9 @@ app.get('/adduser', function (req, res, next) {
         method: 'POST',
         body: JSON.stringify(
             {
-                "query": GQL,
-                "variables": {
-                    "user": user
+                query: GQL,
+                variables: {
+                    user: user
                 }
             }
         ),
