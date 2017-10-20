@@ -13,7 +13,7 @@ import path from 'path';
 
 const app = express();
 
-app.use('/public', express.static(path.join(__dirname, './public')));
+app.use('/', express.static(path.join(__dirname, './public')));
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -114,7 +114,48 @@ app.get('/adduser', function (req, res, next) {
     });
 });
 
+app.get('/callai', function (req, res, next) {
+    let params = {};
+    params.type = 'baiduVoice';
+    params.word = '张鋆去吃饭';
+    let GQL = `query  callAIFunc($params: String!) {
+                             callAI(params:$params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                  params: JSON.stringify(params)
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("callai_json");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+import {dbotRouter} from './router/index';
+
+app.use('/dbot', dbotRouter);
+
 app.use('/graphql', cors(corsOptions), bodyParser.json(), graphqlExpress({schema: schema}));
+
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 app.listen(4000, () => {
     console.log('Running a GraphQL API server at localhost:4000/graphql');
