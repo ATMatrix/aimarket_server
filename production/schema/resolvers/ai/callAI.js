@@ -155,7 +155,7 @@ async function callAI() {
       var b = await att.allowance(account.address, billAddr, { from: account.address, gas: gasLimit });
       console.log(b);
       // let arg = {method: 'animalDetect', url: 'http://t2.27270.com/uploads/tu/201612/357/7.png'};
-      await xiaoi.callAI('hhe', params.question, { from: account.address, gas: gasLimit });
+      await xiaoi.callAI('xiaoi', JSON.stringify({ question: params.question }), { from: account.address, gas: gasLimit });
 
       var eventNewCallback = xiaoi.newCallback();
 
