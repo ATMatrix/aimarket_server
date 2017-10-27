@@ -11,7 +11,7 @@ exports.getToken = getToken;
 
 var _objects = require('../objects');
 
-var _baseDao = require('../../dao/baseDao');
+// import {baseDao} from '../../dao/baseDao';
 
 async function getToken() {
     var token = require('crypto').randomBytes(10).toString('hex');
@@ -22,7 +22,7 @@ async function getToken() {
     console.log("token_test");
     console.log(token);
     var params = {};
-    await (0, _baseDao.baseDao)('userDao', 'test', params);
+    // await baseDao('userDao', 'test', params);
     // return new Token(token);
     return message;
 }

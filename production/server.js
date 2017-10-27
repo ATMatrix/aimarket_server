@@ -109,8 +109,8 @@ app.get('/adduser', function (req, res, next) {
 
 app.get('/callai', function (req, res, next) {
     var params = {};
-    params.type = 'baiduVoice';
-    params.word = '张鋆去吃饭';
+    params.type = 'xiaoi';
+    params.question = '今天上海的天气';
     var GQL = 'query  callAIFunc($params: String!) {\n                             callAI(params:$params) {\n                                  code\n                                  type\n                                  content\n                                }\n                             }';
     (0, _nodeFetch2.default)('http://127.0.0.1:4000/graphql', {
         method: 'POST',

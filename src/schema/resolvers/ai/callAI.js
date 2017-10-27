@@ -7,6 +7,27 @@ import {Message} from '../../objects';
 var crypto = require('crypto');
 var rp = require('request-promise');
 
+//web3
+const Web3 = require('web3');
+const fs = require('fs');
+const config = require('../../../util/config/config.json');
+import registerAbi from '../../../util/abi/Register';
+import xiaoiAbi from '../../../util/abi/xiaoi';
+import ATTAbi from '../../../util/abi/ATT';
+
+const {
+  endpoint,
+  account,
+  cost,
+  bizAddr,
+  proxyAddr,
+  billAddr,
+  gasLimit,
+  attAddr
+} = config;
+
+const web3 = new Web3(new Web3.providers.HttpProvider(endpoint));
+
 export async function callAI() {
   try {
     let options;
@@ -72,38 +93,74 @@ export async function callAI() {
       //xiao i robot
     } else if (params.type === "xiaoi") {
 
-      app_key = '0MsaHPtJA8M5';
-      var app_secret = 'auVSuMpW5AY5eJUdGe53';
-      var realm = "xiaoi.com";
-      var method = "POST";
-      var uri = "/ask.do";
-      var nonce = crypto.randomBytes(20).toString('hex');
-      var HA1 = crypto.createHash('sha1').update([app_key, realm, app_secret].join(":")).digest('hex');
-      var HA2 = crypto.createHash('sha1').update([method, uri].join(":")).digest('hex');
-      var sign = crypto.createHash('sha1').update([HA1, nonce, HA2].join(":")).digest('hex');
-      var ret = `app_key=\"${app_key}\",nonce=\"${nonce}\",signature=\"${sign}\"`;
+      // app_key = '0MsaHPtJA8M5';
+      // var app_secret = 'auVSuMpW5AY5eJUdGe53';
+      // var realm = "xiaoi.com";
+      // var method = "POST";
+      // var uri = "/ask.do";
+      // var nonce = crypto.randomBytes(20).toString('hex');
+      // var HA1 = crypto.createHash('sha1').update([app_key, realm, app_secret].join(":")).digest('hex');
+      // var HA2 = crypto.createHash('sha1').update([method, uri].join(":")).digest('hex');
+      // var sign = crypto.createHash('sha1').update([HA1, nonce, HA2].join(":")).digest('hex');
+      // var ret = `app_key=\"${app_key}\",nonce=\"${nonce}\",signature=\"${sign}\"`;
+      //
+      // options = {
+      //   method: 'POST',
+      //   url: 'http://nlp.xiaoi.com/ask.do',
+      //   headers: {
+      //     'cache-control': 'no-cache',
+      //     'x-auth': ret
+      //   },
+      //   form: {
+      //     user_id: 'user_id',
+      //     question: params.question,
+      //     platform: 'custom',
+      //     format: 'xml'
+      //   }
+      // };
+      //
+      // result = await rp(options).catch(function (err) {
+      //   // Crawling failed or Cheerio choked...
+      //   return err;
+      // });
 
-      options = {
-        method: 'POST',
-        url: 'http://nlp.xiaoi.com/ask.do',
-        headers: {
-          'cache-control': 'no-cache',
-          'x-auth': ret
-        },
-        form: {
-          user_id: 'user_id',
-          question: params.question,
-          platform: 'custom',
-          format: 'xml'
-        }
-      };
+      const xiaoiContract = web3.eth.contract(xiaoiAbi);
+      const ATTContract = web3.eth.contract(ATTAbi);
 
-      result = await rp(options).catch(function (err) {
-        // Crawling failed or Cheerio choked...
-        return err;
+      const xiaoi = xiaoiContract.at(proxyAddr);
+      const att = ATTContract.at(attAddr);
+      console.log("xiaoi");
+      // console.log(xiaoi.callAI.toString());
+      console.log(xiaoi.address);
+
+      // await att.generateTokens(account.address,1000,{from:account.address,gas:gasLimit});
+      var a = await att.balanceOf(account.address,{from:account.address,gas:gasLimit});
+      console.log(a);
+      await att.approve(billAddr, 1000000,{from:account.address,gas:gasLimit});
+      var b = await att.allowance(account.address, billAddr, {from:account.address,gas:gasLimit});
+      console.log(b);
+      // let arg = {method: 'animalDetect', url: 'http://t2.27270.com/uploads/tu/201612/357/7.png'};
+      await xiaoi.callAI('hhe', params.question, {from:account.address,gas:gasLimit});
+
+
+      var eventNewCallback = xiaoi.newCallback();
+
+      result = await new Promise((resolve, reject) => {
+        eventNewCallback.watch(function (error, result) {
+          if (!error){
+            console.log(result);
+            resolve(result);
+          }else {
+            console.log(error);
+            resolve(error);
+          }
+          eventNewCallback.stopWatching();
+        });
       });
 
-      return new Message(type, code, JSON.stringify({answer: result}));
+      console.log(result);
+
+      return new Message(type, code, JSON.stringify({answer: result.args._result}));
 
       //aliyun AI Market
     } else if (params.type === "aliface") {

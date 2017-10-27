@@ -5,7 +5,7 @@
 'use strict';
 
 import {Token,Message} from '../objects';
-import {baseDao} from '../../dao/baseDao';
+// import {baseDao} from '../../dao/baseDao';
 
 export async function getToken() {
     let token = require('crypto').randomBytes(10).toString('hex');
@@ -16,7 +16,7 @@ export async function getToken() {
     console.log("token_test");
     console.log(token);
     let params = {};
-    await baseDao('userDao', 'test', params);
+    // await baseDao('userDao', 'test', params);
     // return new Token(token);
     return message;
 }

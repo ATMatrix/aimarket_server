@@ -1,0 +1,16 @@
+{
+  "endpoint" : "https://bogong.atmatrix.org",
+  "account" : {
+    "address" : "0xca9f427df31a1f5862968fad1fe98c0a9ee068c4",
+    "password" : "123456"
+  },
+  "gasLimit": 4.6e6,
+  "cost": {
+    "gas": 1800000
+  },
+  "busiAddr": "0x7c4594bca5b9050086d7735f7f74d56a260f4b55",
+  "attAddr": "0x2cc193739b74c03bbb087e6a982e31ff82eb8f31",
+  "proxyAddr": "0x9fee9bd10e2282d99c4e80d576012e157f9641bb",
+  "billAddr": "0x0c7e3c26f63e31be79eeb1af84d9492b46af365e",
+  "registerAddr": "0x80c2d746038d83173cabc2084f3b9d532c9590a1"
+}

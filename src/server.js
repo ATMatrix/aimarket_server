@@ -116,8 +116,8 @@ app.get('/adduser', function (req, res, next) {
 
 app.get('/callai', function (req, res, next) {
     let params = {};
-    params.type = 'baiduVoice';
-    params.word = '张鋆去吃饭';
+    params.type = 'xiaoi';
+    params.question = '今天上海的天气';
     let GQL = `query  callAIFunc($params: String!) {
                              callAI(params:$params) {
                                   code
