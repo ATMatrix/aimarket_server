@@ -22,7 +22,11 @@ async function loginUser() {
         params.offset = arguments[1].offset;
         params.count = arguments[1].count;
         //访问数据库Dao
-        var obj = await (0, _baseDao.baseDao)('userDao', 'test', params);
+        var obj = await (0, _baseDao.baseDao)('userDao', 'loginUser', params);
+        if (obj.length === 0) {
+            reportType = 'duplicateUsername';
+            affix = 'fail';
+          }
         var totalCount = obj[0].totalCount;
         var userList = obj[0].userList;
         var hasNextPage = arguments[1].offset + arguments[1].count < obj[0].totalCount ? true : false;

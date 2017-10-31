@@ -12,8 +12,8 @@ var mysql = require('mysql');
 
 //创建连接
 var rdsConnection = exports.rdsConnection = mysql.createConnection({
-    host: 'rm-bp1s6u5an7440q6o8o.mysql.rds.aliyuncs.com',
-    port: 3306,
+    host: '118.31.18.101',
+    port: 4006,
     user: 'ai_root',
     password: '5!-AHiq5',
     database: 'aimarket_db'
