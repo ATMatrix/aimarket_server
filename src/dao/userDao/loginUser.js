@@ -14,10 +14,26 @@ import {rdsConnection, rdsConnet, rdsEnd} from '../../util/database';
 //addUser
 export function loginUser(module, method, params) {
     //some code
-    console.log('userDao-addUser');
-    // if (params.accountName !== undefined) {
-    //     var accountName = params.accountName;
-    var SQL = `select * from t_user`;
+    console.log('userDao-loginUser');
+    if (params.user !== undefined) {
+        let username = params.user.username;
+        let password = params.user.password;
+        let SQL = ` SELECT * FROM t_user t WHERE t.USER_ID = ? AND t.USER_PASSWORD = ? `;
+        let bindVars = [username, password];
+        //promise
+        return new Promise((resolve, reject) => {
+            rdsConnection.query(SQL, bindVars, (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                // console.log(results);
+                resolve(postInterceptor(results));
+            });
+        });
+    } else {
+        throw 'params.user Undefined!Check it!';
+    }
+
     //promise
     return new Promise((resolve, reject) => {
         rdsConnection.query(SQL, (error, results  ,fields) => {
