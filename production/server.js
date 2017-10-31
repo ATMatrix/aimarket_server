@@ -139,6 +139,11 @@ app.use(function (err, req, res, next) {
     res.status(500).send('Something broke!');
 });
 
-app.listen(4000, function () {
+//socket.io
+var server = require('http').createServer(app);
+var webServer = server.listen(4000, function () {
     console.log('Running a GraphQL API server at localhost:4000/graphql');
 });
+
+var ss = require('./socketServer');
+ss.socketServer(webServer);
