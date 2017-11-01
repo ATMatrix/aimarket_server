@@ -20,6 +20,7 @@
   "scripts": {
     "start": "babel-node src/server.js",
     "build": "babel src/ --out-dir ./production",
+    "copy": "cp -r src/util/config/ production/util/config/",
     "buildTest": "babel ./src/test.js --out-dir ./production",
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint"
