@@ -13,7 +13,7 @@ import {baseDao} from '../../../dao/baseDao';
 
 export async function loginUser() {
     try {
-        console.log(arguments[1])
+
         let params = {};
         params.user = _.cloneDeep(arguments[1].user);
         //访问数据库Dao

@@ -35,24 +35,34 @@ module.exports.callAI = async function (socket, msg) {
     let aiID = msg.aiID;
     let tx = await xiaoi.callAI(aiID, JSON.stringify(msg.args), {from:account.address,gas:gasLimit});
     socket.emit('BlockChain', {
-      BlockChain : "BlockChain"
+      stage : "BlockChain",
+      err:'',
+      res:''
     })
     let eventFundsFrozen = busi.EventFundsFrozen({transactionHash:tx});
     eventFundsFrozen.watch((err, res)=>{
-      console.log(res);
       socket.emit('FrozenFunds', {
-        FrozenFunds:'FrozenFunds',
+        stage:'FrozenFunds',
         err:err,
         res:res
       })
-      socket.emit('Worker', {Worker : "Worker"});            
       eventFundsFrozen.stopWatching();
-    })
+    })         
+
+    let eventWorker = busi.EventWorker({transactionHash:tx});
+    eventWorker.watch((err, res)=>{
+      socket.emit('Worker', {
+        stage:'Worker',
+        err:err,
+        res:res
+      })
+      eventFundsDeduct.stopWatching();
+    }) 
 
     let eventFundsDeduct = busi.EventFundsDeduct({transactionHash:tx});
     eventFundsDeduct.watch((err, res)=>{
       socket.emit('DeductFunds', {
-        DeductFunds:'DeductFunds',
+        stage:'DeductFunds',
         err:err,
         res:res
       })
@@ -62,7 +72,7 @@ module.exports.callAI = async function (socket, msg) {
     let eventNewCallback = xiaoi.newCallback({transactionHash:tx});
     eventNewCallback.watch((err, res)=>{
       socket.emit('CallBack', {
-        CallBack:'CallBack',
+        stage:'CallBack',
         err:err,
         res:res
       })
