@@ -8,12 +8,14 @@
 import {getToken} from './getToken';
 import {loginUser} from './user/loginUser';
 import {addUser} from './user/addUser';
+import {callAI} from './ai/callAI';
 
 
 export const resolvers = {
     Query: {
         getToken,
         loginUser,
-        addUser
+        addUser,
+        callAI
         }
 };

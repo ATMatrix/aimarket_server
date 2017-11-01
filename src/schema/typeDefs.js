@@ -30,7 +30,8 @@ input User {
 type Query {
     getToken(id:ID!): Message!
     addUser(user:User!): Message!
-    loginUser(username:String!,password:String!):Message!
+    callAI(params:String!): Message!
+    loginUser(user:User!):Message!
 }
 
 schema {

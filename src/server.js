@@ -13,7 +13,7 @@ import path from 'path';
 
 const app = express();
 
-app.use('/public', express.static(path.join(__dirname, './public')));
+app.use('/', express.static(path.join(__dirname, './public')));
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -97,9 +97,9 @@ app.get('/adduser', function (req, res, next) {
         method: 'POST',
         body: JSON.stringify(
             {
-                "query": GQL,
-                "variables": {
-                    "user": user
+                query: GQL,
+                variables: {
+                    user: user
                 }
             }
         ),
@@ -114,8 +114,54 @@ app.get('/adduser', function (req, res, next) {
     });
 });
 
+app.get('/callai', function (req, res, next) {
+    let params = {};
+    params.type = 'xiaoi';
+    params.question = '今天上海的天气';
+    let GQL = `query  callAIFunc($params: String!) {
+                             callAI(params:$params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                  params: JSON.stringify(params)
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("callai_json");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+import {dbotRouter} from './router/index';
+
+app.use('/dbot', dbotRouter);
+
 app.use('/graphql', cors(corsOptions), bodyParser.json(), graphqlExpress({schema: schema}));
 
-app.listen(4000, () => {
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+//socket.io
+var server = require('http').createServer(app);
+const webServer = server.listen(4000, () => {
     console.log('Running a GraphQL API server at localhost:4000/graphql');
 });
+
+const ss = require('./socketServer');
+ss.socketServer(webServer);
