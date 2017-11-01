@@ -9,6 +9,7 @@
 # misc
 yarn.lock
 npm-debug.log*
+package-lock.json
 
 # ide
 .idea
