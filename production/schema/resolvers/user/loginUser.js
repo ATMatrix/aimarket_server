@@ -12,30 +12,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loginUser = loginUser;
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _objects = require('../../objects');
 
 var _baseDao = require('../../../dao/baseDao');
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 async function loginUser() {
     try {
+        console.log(arguments[1]);
         var params = {};
-        params.offset = arguments[1].offset;
-        params.count = arguments[1].count;
+        params.user = _lodash2.default.cloneDeep(arguments[1].user);
         //访问数据库Dao
         var obj = await (0, _baseDao.baseDao)('userDao', 'loginUser', params);
         if (obj.length === 0) {
-            reportType = 'duplicateUsername';
-            affix = 'fail';
-          }
-        var totalCount = obj[0].totalCount;
-        var userList = obj[0].userList;
-        var hasNextPage = arguments[1].offset + arguments[1].count < obj[0].totalCount ? true : false;
-        var endCursor = hasNextPage ? arguments[1].offset + arguments[1].count : obj[0].totalCount;
-        var pageInfo = new _objects.PageInfo(endCursor, hasNextPage);
-        var UserListTemp = new _objects.UserList(totalCount, userList, pageInfo);
-        var type = "UserList";
+            return new _objects.Message("error", "400003", "accout/password is wrong!");
+        }
+        var type = "loginUser";
         var code = "600003";
-        var content = JSON.stringify(UserListTemp);
+        var content = "login success";
         return new _objects.Message(type, code, content);
     } catch (err) {
         console.log(err);

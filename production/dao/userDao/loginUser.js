@@ -22,10 +22,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //addUser
 function loginUser(module, method, params) {
     //some code
-    console.log('userDao-addUser');
-    // if (params.accountName !== undefined) {
-    //     var accountName = params.accountName;
-    var SQL = 'select * from t_user';
+    console.log('userDao-loginUser');
+    if (params.user !== undefined) {
+        var username = params.user.username;
+        var password = params.user.password;
+        var _SQL = ' SELECT * FROM t_user t WHERE t.USER_ID = ? AND t.USER_PASSWORD = ? ';
+        var bindVars = [username, password];
+        //promise
+        return new Promise(function (resolve, reject) {
+            _database.rdsConnection.query(_SQL, bindVars, function (error, results, fields) {
+                if (error) {
+                    throw error;
+                }
+                // console.log(results);
+                resolve((0, _postInterceptor2.default)(results));
+            });
+        });
+    } else {
+        throw 'params.user Undefined!Check it!';
+    }
+
     //promise
     return new Promise(function (resolve, reject) {
         _database.rdsConnection.query(SQL, function (error, results, fields) {
