@@ -389,5 +389,27 @@ export default [
     ],
     "name": "EventCallFundsFrozen",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "_id",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "_callID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "_workerFlag",
+        "type": "bool"
+      }
+    ],
+    "name": "EventWorker",
+    "type": "event"
   }
 ];

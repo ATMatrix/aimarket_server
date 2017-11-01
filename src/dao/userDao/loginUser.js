@@ -18,7 +18,7 @@ export function loginUser(module, method, params) {
     if (params.user !== undefined) {
         let username = params.user.username;
         let password = params.user.password;
-        let SQL = ` SELECT * FROM t_user t WHERE t.USER_ID = ? AND t.USER_PASSWORD = ? `;
+        let SQL = ` SELECT * FROM t_user t WHERE t.USER_NAME = ? AND t.USER_PASSWORD = ? `;
         let bindVars = [username, password];
         //promise
         return new Promise((resolve, reject) => {
