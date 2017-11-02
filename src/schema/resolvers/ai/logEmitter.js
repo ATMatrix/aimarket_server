@@ -41,46 +41,59 @@ module.exports.callAI = async function (socket, msg) {
       res:'',
     })
     let eventFundsFrozen = busi.EventFundsFrozen({transactionHash:tx});
+    let callID;
     eventFundsFrozen.watch((err, res)=>{
-      socket.emit('message', {
-        stage:'FrozenFunds',
-        err,
-        res,
-      })
-      eventFundsFrozen.stopWatching();
+      console.log(res)
+      if(!res && res.transactionHash === tx){
+        callID = res.args._callID;
+        socket.emit('message', {
+          stage:'FrozenFunds',
+          err,
+          res,
+        })
+        eventFundsFrozen.stopWatching();
+      }
     })
 
     let eventWorker = busi.EventWorker({transactionHash:tx});
     eventWorker.watch((err, res)=>{
-      socket.emit('message', {
-        stage:'Worker',
-        err,
-        res,
-      })
-      eventFundsDeduct.stopWatching();
+      console.log(res)
+      if(!res && res.args._callID === callID){
+        socket.emit('message', {
+          stage:'Worker',
+          err,
+          res,
+        })
+        eventFundsDeduct.stopWatching();
+      } 
     })
 
     let eventFundsDeduct = busi.EventFundsDeduct({transactionHash:tx});
     eventFundsDeduct.watch((err, res)=>{
-      socket.emit('message', {
-        stage:'DeductFunds',
-        err,
-        res,
-      })
-      eventFundsDeduct.stopWatching();
+      console.log(res)
+      if(!res && res.args._callID === callID){
+        socket.emit('message', {
+          stage:'DeductFunds',
+          err,
+          res,
+        })
+        eventFundsDeduct.stopWatching();
+      }
     })
 
     let eventNewCallback = xiaoi.newCallback({transactionHash:tx});
     eventNewCallback.watch((err, res)=>{
-      socket.emit('message', {
-        stage:'Results',
-        err,
-        res,
-      })
-      eventNewCallback.stopWatching();
+      console.log(res)
+      if(!res && res.args._callID === callID){
+        socket.emit('message', {
+          stage:'Results',
+          err,
+          res,
+        })
+        eventNewCallback.stopWatching();
+      }
     });
   } catch (err) {
     console.log(err);
   }
 }
-
