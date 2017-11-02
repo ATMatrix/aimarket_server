@@ -9,6 +9,9 @@ import {getToken} from './getToken';
 import {loginUser} from './user/loginUser';
 import {addUser} from './user/addUser';
 import {callAI} from './ai/callAI';
+import {setAttAddress} from './user/setAttAddress'
+import {getAttAddress} from './user/getAttAddress'
+
 
 
 export const resolvers = {
@@ -16,6 +19,8 @@ export const resolvers = {
         getToken,
         loginUser,
         addUser,
-        callAI
+        callAI,
+        setAttAddress,
+        getAttAddress
         }
 };
