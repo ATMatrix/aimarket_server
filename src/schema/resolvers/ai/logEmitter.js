@@ -73,7 +73,7 @@ module.exports.callAI = async function (socket, msg) {
     let eventNewCallback = xiaoi.newCallback({transactionHash:tx});
     eventNewCallback.watch((err, res)=>{
       socket.emit('message', {
-        stage:'CallBack',
+        stage:'Results',
         err,
         res,
       })
