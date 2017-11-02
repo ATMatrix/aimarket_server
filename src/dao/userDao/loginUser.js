@@ -8,7 +8,7 @@
 import postInterceptor from '../interceptor/postInterceptor'
 
 //连接DB
-import {rdsConnection, rdsConnet, rdsEnd} from '../../util/database';
+import {poolConnection} from '../../util/database';
 
 
 //addUser
@@ -22,26 +22,21 @@ export function loginUser(module, method, params) {
         let bindVars = [username, password];
         //promise
         return new Promise((resolve, reject) => {
-            rdsConnection.query(SQL, bindVars, (error, results, fields) => {
-                if (error) {
-                    throw error;
-                }
-                // console.log(results);
-                resolve(postInterceptor(results));
-            });
+            poolConnection().then((conn)=>{
+                conn.query(SQL, bindVars, (error, results, fields) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    // console.log(results);
+                    conn.release();
+                    resolve(postInterceptor(results));
+                });
+            }).catch((error)=>{
+                reject(error);                
+            })
         });
     } else {
         throw 'params.user Undefined!Check it!';
     }
 
-    //promise
-    return new Promise((resolve, reject) => {
-        rdsConnection.query(SQL, (error, results  ,fields) => {
-            if (error) {
-                throw error;
-            }
-            console.log(results);
-            resolve(postInterceptor(results));
-        });
-    });
 }

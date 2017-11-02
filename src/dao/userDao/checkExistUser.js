@@ -8,7 +8,7 @@
 import postInterceptor from '../interceptor/postInterceptor'
 
 //连接DB
-import {rdsConnection, rdsConnet, rdsEnd} from '../../util/database';
+import {pool} from '../../util/database';
 
 
 //addUser
@@ -21,7 +21,7 @@ export function checkExistUser(module, method, params) {
         let bindVars = [username];
         //promise
         return new Promise((resolve, reject) => {
-            rdsConnection.query(SQL, bindVars, (error, results, fields) => {
+            pool.query(SQL, bindVars, (error, results, fields) => {
                 if (error) {
                     throw error;
                 }

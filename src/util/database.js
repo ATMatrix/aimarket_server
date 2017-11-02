@@ -6,43 +6,69 @@
 
 var mysql = require('mysql');
 
-//创建连接
-export const rdsConnection = mysql.createConnection({
+const poolConfig = {
+    connectionLimit: 10,
     host: '118.31.18.101',
     port: 4006,
     user: 'ai_root',
     password: '5!-AHiq5',
     database: 'aimarket_db'
-});
+}
+
+//创建连接
+export const pool = mysql.createPool(poolConfig);
 
 //打开连接
-export function rdsConnet() {
+export function poolConnection() {
     return new Promise(function (resolve, reject) {
-        return rdsConnection.connect(function (err) {
+        return pool.getConnection(function (err, connection) {
             if (err) {
                 console.error('error connecting: ' + err.stack);
-                // throw error;
+                reject(err);
             }
-            resolve();
+            resolve(connection);
             console.log("rdsConnet");
-            console.log('connected as id ' + rdsConnection.threadId);
+            console.log('connected as id ' + connection.threadId);
         });
     });
 }
 
-rdsConnet();
+poolConnection().then(function (connection) {
+    connection.ping(function (err) {
+        if (err) throw err;
+        console.log('Server responded to ping');
+    })
+    connection.release();
+});
 
-//关闭连接
-export const rdsEnd = function (rdsConnection) {
+//关闭连接池
+export const poolEnd = function () {
     return new Promise(function (resolve, reject) {
-        return rdsConnection.end(function (err) {
+        return pool.end(function (err) {
             if (err) {
                 console.error('error connecting: ' + err.stack);
-                // throw error;
+                reject(err);
             }
-            console.log("rdsEnd");
-            console.log('connected end as id ' + rdsConnection.threadId);
+            console.log("poolEnd");
             resolve();
         });
     });
 };
+
+pool.on('acquire', function (connection) {
+    console.log('Connection %d acquired', connection.threadId);
+});
+
+
+pool.on('connection', function (connection) {
+    // connection.query('SET SESSION auto_increment_increment=1')
+});
+
+pool.on('enqueue', function () {
+    console.log('Waiting for available connection slot');
+});
+
+
+pool.on('release', function (connection) {
+    console.log('Connection %d released', connection.threadId);
+});
