@@ -44,7 +44,7 @@ module.exports.callAI = async function (socket, msg) {
     let callID;
     eventFundsFrozen.watch((err, res)=>{
       console.log(res)
-      if(!res && res.transactionHash === tx){
+      if(!err && res.transactionHash === tx){
         callID = res.args._callID;
         socket.emit('message', {
           stage:'FrozenFunds',
@@ -55,41 +55,71 @@ module.exports.callAI = async function (socket, msg) {
       }
     })
 
-    let eventWorker = busi.EventWorker({transactionHash:tx});
+    let deductFundsMsg = null
+    let resultMsg = null
+    let workerDone = false
+    let deductFundsDone = false
+
+    let eventWorker = busi.EventWorker();
     eventWorker.watch((err, res)=>{
       console.log(res)
-      if(!res && res.args._callID === callID){
+      if(!err && res.args._callID.equals(callID)) {
         socket.emit('message', {
           stage:'Worker',
           err,
           res,
         })
-        eventFundsDeduct.stopWatching();
-      } 
-    })
-
-    let eventFundsDeduct = busi.EventFundsDeduct({transactionHash:tx});
-    eventFundsDeduct.watch((err, res)=>{
-      console.log(res)
-      if(!res && res.args._callID === callID){
-        socket.emit('message', {
-          stage:'DeductFunds',
-          err,
-          res,
-        })
-        eventFundsDeduct.stopWatching();
+        eventWorker.stopWatching();
+        if (deductFundsMsg) {
+          socket.emit('message', deductFundsMsg)
+          deductFundsDone = true
+        }
+        if (resultMsg && deductFundsDone) {
+          socket.emit('message', resultMsg)
+          socket.disconnect()
+        }
+        workerDone = true
       }
     })
 
-    let eventNewCallback = xiaoi.newCallback({transactionHash:tx});
+    let eventFundsDeduct = busi.EventFundsDeduct();
+    eventFundsDeduct.watch((err, res)=>{
+      console.log(res)
+      if(!err && res.args._callID.equals(callID)) {
+        const resp = {
+          stage:'DeductFunds',
+          err,
+          res,
+        }
+        if (workerDone) {
+          socket.emit('message', resp)
+          deductFundsDone = true
+        } else {
+          deductFundsMsg = resp
+        }
+        eventFundsDeduct.stopWatching();
+        if (deductFundsDone && resultMsg) {
+          socket.emit('message', resultMsg)
+          socket.disconnect()
+        }
+      }
+    })
+
+    let eventNewCallback = xiaoi.newCallback();
     eventNewCallback.watch((err, res)=>{
       console.log(res)
-      if(!res && res.args._callID === callID){
-        socket.emit('message', {
+      if(!err && res.args._callID.equals(callID)) {
+        const resp = {
           stage:'Results',
           err,
           res,
-        })
+        }
+        if (deductFundsDone) {
+          socket.emit('message', resp)
+          socket.disconnect()
+        } else {
+          resultMsg = resp
+        }
         eventNewCallback.stopWatching();
       }
     });
