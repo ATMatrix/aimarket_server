@@ -146,6 +146,69 @@ app.get('/callai', function (req, res, next) {
     });
 });
 
+app.get('/setAttAddress', function (req, res, next) {
+    let user = {};
+    user.username = 'abc';
+    user.address = '0x20';
+    let GQL = `query  setAttAddressFunc($params: String!) {
+                    setAttAddress(params:$params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                  params: JSON.stringify({user:user})
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("setAttAddress");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+app.get('/getAttAddress', function (req, res, next) {
+    let user = {};
+    user.username = 'abc';
+    let GQL = `query  getAttAddressFunc($params: String!) {
+                    getAttAddress(params:$params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                  params: JSON.stringify({user:user})
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("getAttAddress");
+        console.log(json);
+        res.send(json);
+    });
+});
+
 import {dbotRouter} from './router/index';
 
 app.use('/dbot', dbotRouter);

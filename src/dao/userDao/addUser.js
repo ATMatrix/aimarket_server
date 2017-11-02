@@ -35,3 +35,4 @@ export function addUser(module, method, params) {
         throw 'params.user Undefined!Check it!';
     }
 }
+

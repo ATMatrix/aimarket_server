@@ -32,6 +32,8 @@ type Query {
     addUser(user:User!): Message!
     callAI(params:String!): Message!
     loginUser(user:User!):Message!
+    setAttAddress(params:String!):Message!
+    getAttAddress(params:String!):Message!    
 }
 
 schema {

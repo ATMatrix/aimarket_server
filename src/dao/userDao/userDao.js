@@ -7,6 +7,8 @@
 import {addUser} from './addUser'
 import {loginUser} from './loginUser'
 import {checkExistUser} from './checkExistUser'
+import {setAttAddress} from './setAttAddress'
+import {getAttAddress} from './getAttAddress'
 
 
 //userDao
@@ -31,6 +33,8 @@ let dao = {};
 dao.addUser=addUser;
 dao.loginUser=loginUser;
 dao.checkExistUser=checkExistUser;
+dao.setAttAddress=setAttAddress;
+dao.getAttAddress=getAttAddress;
 
 
 
