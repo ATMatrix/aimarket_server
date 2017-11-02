@@ -4,8 +4,6 @@
 
 'use strict';
 
-import {rdsConnet, rdsConnection} from '../../util/database';
-
 export default async function frontInterceptor() {
     //建立连接
     // await rdsConnet(rdsConnection);

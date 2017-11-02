@@ -12,19 +12,20 @@ const {
 } = require('../../../util/config/config.json');
 
 const {
-  web3, 
+  web3,
   xiaoiContrac,
   busiContract,
   ATTContract,
-  busi, 
-  xiaoi, 
-  att 
+  busi,
+  xiaoi,
+  att
 } = require('../../../util/contract/contract.js')
+
 
 module.exports.callAI = async function (socket, msg) {
   try {
     console.log(msg.aiID);
-    
+
     // await att.generateTokens(account.address,100000,{from:account.address,gas:gasLimit});
     let a = await att.balanceOf(account.address,{from:account.address,gas:gasLimit});
     console.log(a);
@@ -34,47 +35,47 @@ module.exports.callAI = async function (socket, msg) {
     console.log(msg.args);
     let aiID = msg.aiID;
     let tx = await xiaoi.callAI(aiID, JSON.stringify(msg.args), {from:account.address,gas:gasLimit});
-    socket.emit('BlockChain', {
+    socket.emit('message', {
       stage : "BlockChain",
       err:'',
-      res:''
+      res:'',
     })
     let eventFundsFrozen = busi.EventFundsFrozen({transactionHash:tx});
     eventFundsFrozen.watch((err, res)=>{
-      socket.emit('FrozenFunds', {
+      socket.emit('message', {
         stage:'FrozenFunds',
-        err:err,
-        res:res
+        err,
+        res,
       })
       eventFundsFrozen.stopWatching();
-    })         
+    })
 
     let eventWorker = busi.EventWorker({transactionHash:tx});
     eventWorker.watch((err, res)=>{
-      socket.emit('Worker', {
+      socket.emit('message', {
         stage:'Worker',
-        err:err,
-        res:res
+        err,
+        res,
       })
       eventFundsDeduct.stopWatching();
-    }) 
+    })
 
     let eventFundsDeduct = busi.EventFundsDeduct({transactionHash:tx});
     eventFundsDeduct.watch((err, res)=>{
-      socket.emit('DeductFunds', {
+      socket.emit('message', {
         stage:'DeductFunds',
-        err:err,
-        res:res
+        err,
+        res,
       })
       eventFundsDeduct.stopWatching();
-    }) 
-    
+    })
+
     let eventNewCallback = xiaoi.newCallback({transactionHash:tx});
     eventNewCallback.watch((err, res)=>{
-      socket.emit('CallBack', {
-        stage:'CallBack',
-        err:err,
-        res:res
+      socket.emit('message', {
+        stage:'Results',
+        err,
+        res,
       })
       eventNewCallback.stopWatching();
     });

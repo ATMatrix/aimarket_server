@@ -8,9 +8,9 @@
   "cost": {
     "gas": 1800000
   },
-  "busiAddr": "0x91bced4b1f401e4423cd7f7f71a48a7af4cddebd",
-  "attAddr": "0x32dbf2ad6fd179a9fe42a44d882dc232c3e081a2",
-  "proxyAddr": "0xb0ee5549759083940370b721088fcfef52c7ae1b",
-  "billAddr": "0xcb133dea28877b42932c36300b9c4fcdd21dc602",
-  "registerAddr": "0xe1390465b57f5086e50b70757a3429dc011da7e7"
+  "busiAddr": "0x6832e1b9ea648d542b46b6d97ea0fb1a9664f675",
+ "attAddr": "0x82a98e99284e3002da3f8c466443ef187a5a5472",
+  "proxyAddr": "0x9f4a543163b878bcf920f4b0103093a5d5affdfa",
+  "billAddr": "0x86c135173bdb584103a8c85ac83e408a38f2370d",
+  "registerAddr": "0x1c17f099a62a4b9c604ebbdb751faff34b892ace"
 }

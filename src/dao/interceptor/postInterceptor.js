@@ -4,8 +4,6 @@
 
 'use strict';
 
-import {rdsEnd,rdsConnection} from '../../util/database';
-
 export default async function postInterceptor(data) {
     //断开连接
     // await rdsEnd(rdsConnection);
