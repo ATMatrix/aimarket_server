@@ -42,6 +42,7 @@ module.exports.callAI = async function (socket, msg) {
     })
     let eventFundsFrozen = busi.EventFundsFrozen({transactionHash:tx});
     eventFundsFrozen.watch((err, res)=>{
+      console.log(res)
       socket.emit('message', {
         stage:'FrozenFunds',
         err,
@@ -52,6 +53,7 @@ module.exports.callAI = async function (socket, msg) {
 
     let eventWorker = busi.EventWorker({transactionHash:tx});
     eventWorker.watch((err, res)=>{
+      console.log(res)
       socket.emit('message', {
         stage:'Worker',
         err,
@@ -62,6 +64,7 @@ module.exports.callAI = async function (socket, msg) {
 
     let eventFundsDeduct = busi.EventFundsDeduct({transactionHash:tx});
     eventFundsDeduct.watch((err, res)=>{
+      console.log(res)
       socket.emit('message', {
         stage:'DeductFunds',
         err,
@@ -72,6 +75,7 @@ module.exports.callAI = async function (socket, msg) {
 
     let eventNewCallback = xiaoi.newCallback({transactionHash:tx});
     eventNewCallback.watch((err, res)=>{
+      console.log(res)
       socket.emit('message', {
         stage:'Results',
         err,
