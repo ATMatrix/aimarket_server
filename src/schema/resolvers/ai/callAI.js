@@ -233,13 +233,13 @@ export async function callAI() {
       let method = params.method;
       let image = params.image;
       const imageCensor = require('../api/imageCensor');
-      content = await imageCensor(method, image);
+      content = await imageCensor({method, image});
       return new Message(type, code, JSON.stringify(content, null, 2));
     } if (params.type === "nlp") {
       let method = params.method;
       let text = params.text;
       const nlp = require('../api/nlp');
-      content = await nlp(method, text);
+      content = await nlp({method, text});
       return new Message(type, code, JSON.stringify(content, null, 2));
     } else {
       return new Message("error", "400004", "Not found " + params.type);

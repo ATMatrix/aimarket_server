@@ -6,7 +6,7 @@ const config = {
   SECRET_KEY: "TOvuxNxB1Ga6ZOpN3ntGfhNjmtheVdR5"
 }
 
-const client = new CensorClient(APP_ID, API_KEY, SECRET_KEY)
+const client = new CensorClient(config.APP_ID, config.API_KEY, config.SECRET_KEY)
 
 const methods = [
   'antiPorn',
@@ -20,6 +20,8 @@ module.exports = async ({
   if (!image) throw 'image required'
   if (methods.indexOf(method) === -1)
     throw `method must in ${JSON.stringify(methods)}`
+  console.log(">>>>>>>>>>>>>>>>>>>")
+  console.log(image)
 
   const result = await client[method](image)
 
