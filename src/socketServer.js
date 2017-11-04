@@ -30,24 +30,26 @@ module.exports.socketServer = function (server) {
       roomUser[roomId].push(user);
       socket.join(roomId);
       console.log('<p>'+user + '加入了房间</p>');
-      socket.to(roomId).emit('sys', user + '加入了房间');
-      socket.emit('sys',user + '加入了房间');
+      // io.to(roomId).emit('sys', user + '加入了房间');
+      io.emit('sys',user + '加入了房间');
     }) 
 
        // 监听来自客户端的消息
     socket.on('message', function (msg) {
         // 验证如果用户不在房间内则不给发送
-      if (roomUser[roomId].indexOf(user)< 0) {  
-        return false;
-      }
+      // if (roomUser[roomId].indexOf(user)< 0) {  
+      //   return false;
+      // }
+      console.log("server message: ", msg);
+      user = msg.username;
       console.log("message: ", msg);
-      xiaoi({"question" : msg}).then(res => {
+      xiaoi({"question" : msg.input}).then(res => {
           console.log("xiaoi房管: ", user, res);
-          socket.to(roomId).emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
-          socket.emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
+          // io.to(roomId).emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
+          io.emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
       });
-      socket.to(roomId).emit('new message', user + '说：' + msg);
-      socket.emit('new message', user + '说：' + msg);
+      // io.to(roomId).emit('new message', user + '说：' + msg);
+      io.emit('new message', user + '说：' + msg.input);
     });
 
 
