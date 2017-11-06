@@ -35,7 +35,8 @@ module.exports.socketServer = function (server) {
     })
 
        // 监听来自客户端的消息
-    socket.on('message', async function (msg) {
+    socket.on('clientMsg', async function (msg) {
+      console.log('clientmsg',msg)
         // 验证如果用户不在房间内则不给发送
       // if (roomUser[roomId].indexOf(user)< 0) {
       //   return false;
@@ -53,12 +54,6 @@ module.exports.socketServer = function (server) {
         analysis['概率'] = prob[pType[prob.sentiment]]
       }
       const mm = JSON.stringify(analysis)
-      msg.input += mm
-
-      console.log('>>>>>>>>>>>>>>')
-      console.log(mm)
-
-
       console.log("server message: ", msg);
       user = msg.username;
       console.log("message: ", msg);
@@ -68,6 +63,7 @@ module.exports.socketServer = function (server) {
           io.emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
       });
       // io.to(roomId).emit('new message', user + '说：' + msg);
+      msg.input += mm;
       io.emit('new message', user + '说：' + msg.input);
     });
 
