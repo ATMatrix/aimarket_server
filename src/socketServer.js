@@ -58,6 +58,7 @@ module.exports.socketServer = function (server) {
       }
       const mm = JSON.stringify(analysis)
       io.emit('new message', mm);
+      let user = msg.input;
       xiaoi({"question" : msg.input}).then(res => {
           console.log("xiaoi房管: ", user, res);
           // io.to(roomId).emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
