@@ -49,22 +49,21 @@ module.exports.socketServer = function (server) {
       const analysis = {
         情感分析结果: rType[prob.sentiment],
         置信度: prob.confidence,
+        result: prob.sentiment,
+        user: msg.username,
+        input: msg.input
       }
       if (prob.sentiment === 0 || prob.sentiment === 2) {
         analysis['概率'] = prob[pType[prob.sentiment]]
       }
       const mm = JSON.stringify(analysis)
-      console.log("server message: ", msg);
-      user = msg.username;
-      console.log("message: ", msg);
+      io.emit('new message', mm);
       xiaoi({"question" : msg.input}).then(res => {
           console.log("xiaoi房管: ", user, res);
           // io.to(roomId).emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
           io.emit('xiaoi message', '@'+user+' '+res, 'xiaoi房管');
       });
       // io.to(roomId).emit('new message', user + '说：' + msg);
-      msg.input += mm;
-      io.emit('new message', user + '说：' + msg.input);
     });
 
 
