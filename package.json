@@ -31,6 +31,7 @@
   "dependencies": {
     "baidu-aip-sdk": "^1.4.1",
     "body-parser": "^1.18.1",
+    "compression": "^1.7.1",
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "graphql": "^0.10.5",
@@ -40,10 +41,10 @@
     "mysql": "^2.14.1",
     "node-fetch": "^1.7.3",
     "path": "^0.12.7",
+    "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.4",
-    "web3": "^0.19.1",
-    "request": "^2.83.0"
+    "web3": "^0.19.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

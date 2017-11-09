@@ -10,8 +10,10 @@ import bodyParser from'body-parser';
 import {graphqlExpress} from 'graphql-server-express';
 import {schema} from'./schema/schema';
 import path from 'path';
+import compression from 'compression';
 
 const app = express();
+app.use(compression());
 
 app.use('/', express.static(path.join(__dirname, './public')));
 
