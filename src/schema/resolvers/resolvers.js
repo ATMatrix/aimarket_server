@@ -15,12 +15,12 @@ import {getAttAddress} from './user/getAttAddress'
 
 
 export const resolvers = {
-    Query: {
-        getToken,
-        loginUser,
-        addUser,
-        callAI,
-        setAttAddress,
-        getAttAddress
-        }
+  Query: {
+    getToken,
+    loginUser,
+    addUser,
+    callAI,
+    setAttAddress,
+    getAttAddress
+  }
 };

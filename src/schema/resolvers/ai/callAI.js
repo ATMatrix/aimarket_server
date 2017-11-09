@@ -3,30 +3,28 @@
  */
 
 'use strict';
-import {Message} from '../../objects';
+import { Message } from '../../objects';
 var crypto = require('crypto');
 var rp = require('request-promise');
 
 //web3
-const Web3 = require('web3');
-const fs = require('fs');
-const config = require('../../../util/config/config.json');
-import registerAbi from '../../../util/abi/Register';
-import xiaoiAbi from '../../../util/abi/xiaoi';
-import ATTAbi from '../../../util/abi/ATT';
+import fs from 'fs';
+import { blockchain as config }  from '../../../util/config'
+import contracts  from '../../../util/contracts'
 
 const {
   endpoint,
   account,
   cost,
-  bizAddr,
-  proxyAddr,
-  billAddr,
   gasLimit,
-  attAddr
 } = config;
 
-const web3 = new Web3(new Web3.providers.HttpProvider(endpoint));
+const {
+  web3,
+  consumer,
+  att,
+} = contracts
+
 
 export async function callAI() {
   try {
@@ -36,131 +34,87 @@ export async function callAI() {
     let type = "callAI";
     let code = "900001";
     let content = "";
-    let params = {};
-    params = JSON.parse(arguments[1].params);
+    let params = JSON.parse(arguments[1].params);
 
     //baidu ORC
     if (params.type === "baiduOcr") {
+      const AipOcrClient = require("baidu-aip-sdk").ocr;
 
-      var AipOcrClient = require("baidu-aip-sdk").ocr;
-      // 设置APPID/AK/SK
-      var APP_ID = "10216389";
-      var API_KEY = "W9EKSl5xwhEpEI7w5swK1ugb";
-      var SECRET_KEY = "Hwfn4bprEiUQqpv4dLUclxWSv6yA7qNd";
+      const APP_ID = "10216389";
+      const API_KEY = "W9EKSl5xwhEpEI7w5swK1ugb";
+      const SECRET_KEY = "Hwfn4bprEiUQqpv4dLUclxWSv6yA7qNd";
 
-      var client = new AipOcrClient(APP_ID, API_KEY, SECRET_KEY);
+      const client = new AipOcrClient(APP_ID, API_KEY, SECRET_KEY);
 
-      let obj = await client.generalUrl(params.url, {detect_direction: true});
-      console.log(obj);
+      const obj = await client
+        .generalUrl(params.url, {
+          detect_direction: true,
+        });
       content = JSON.stringify(obj);
+
       return new Message(type, code, content);
 
       //baiduVoice
     } else if (params.type === "baiduVoice") {
+      const AipSpeechClient = require("baidu-aip-sdk").speech;
+      const fs = require('fs');
 
-      var AipSpeechClient = require("baidu-aip-sdk").speech;
-      var fs = require('fs');
+      const APP_ID = "10266139";
+      const API_KEY = "yZrc3nNz6qC5AwuCUFGem88P";
+      const SECRET_KEY = "CRnLKOuMUgGXrqMP3AQFIMBMBxg0ZQCO";
 
-      // 设置APPID/AK/SK
-      var APP_ID1 = "10266139";
-      var API_KEY1 = "yZrc3nNz6qC5AwuCUFGem88P";
-      var SECRET_KEY1 = "CRnLKOuMUgGXrqMP3AQFIMBMBxg0ZQCO";
+      const client = new AipSpeechClient(APP_ID, API_KEY, SECRET_KEY);
 
-      var client1 = new AipSpeechClient(APP_ID1, API_KEY1, SECRET_KEY1);
+      const result = await client
+        .text2audio(params.word, {
+          spd: 0,
+          per: 4,
+        });
 
-      var result1 = await client1.text2audio(params.word, {spd: 0, per: 4});
-      console.log(result1);
-      // await Promise.resolve().then(()=>{
-      //   return fs.writeFile('./public/testVoice.mp3', result1.data, (err) => {
-      //     if (err) throw err;
-      //     console.log('The file has been saved!');
-      //   });
-      // });
-
-      var flag = await new Promise((resolve, reject) => {
-        fs.writeFile('./public/test.mp3', result1.data, (err) => {
+      const flag = await new Promise((resolve, reject) => {
+        fs.writeFile('./public/test.mp3', result.data, (err) => {
           if (err) reject(false);
           resolve(true);
         });
       });
 
-      if(flag){
+      if (flag) {
         return new Message(type, code, JSON.stringify({message:"baiduVoice_success"}));
-      }else {
-        return new Message(type, code, JSON.stringify({message:"baiduVoice_fail"}));
-
       }
+      return new Message(type, code, JSON.stringify({message:"baiduVoice_fail"}));
+
       //xiao i robot
     } else if (params.type === "xiaoi") {
+      const callConf = {
+        from: account.address,
+        gas: gasLimit
+      }
+      const args = JSON.stringify({
+        question: params.question
+      })
 
-      // app_key = '0MsaHPtJA8M5';
-      // var app_secret = 'auVSuMpW5AY5eJUdGe53';
-      // var realm = "xiaoi.com";
-      // var method = "POST";
-      // var uri = "/ask.do";
-      // var nonce = crypto.randomBytes(20).toString('hex');
-      // var HA1 = crypto.createHash('sha1').update([app_key, realm, app_secret].join(":")).digest('hex');
-      // var HA2 = crypto.createHash('sha1').update([method, uri].join(":")).digest('hex');
-      // var sign = crypto.createHash('sha1').update([HA1, nonce, HA2].join(":")).digest('hex');
-      // var ret = `app_key=\"${app_key}\",nonce=\"${nonce}\",signature=\"${sign}\"`;
-      //
-      // options = {
-      //   method: 'POST',
-      //   url: 'http://nlp.xiaoi.com/ask.do',
-      //   headers: {
-      //     'cache-control': 'no-cache',
-      //     'x-auth': ret
-      //   },
-      //   form: {
-      //     user_id: 'user_id',
-      //     question: params.question,
-      //     platform: 'custom',
-      //     format: 'xml'
-      //   }
-      // };
-      //
-      // result = await rp(options).catch(function (err) {
-      //   // Crawling failed or Cheerio choked...
-      //   return err;
-      // });
-
-      const xiaoiContract = web3.eth.contract(xiaoiAbi);
-      const ATTContract = web3.eth.contract(ATTAbi);
-
-      const xiaoi = xiaoiContract.at(proxyAddr);
-      const att = ATTContract.at(attAddr);
-      console.log("xiaoi");
-      // console.log(xiaoi.callAI.toString());
-      console.log(xiaoi.address);
-
-      // await att.generateTokens(account.address,1000,{from:account.address,gas:gasLimit});
-      var a = await att.balanceOf(account.address,{from:account.address,gas:gasLimit});
-      console.log(a);
-      await att.approve(billAddr, 1000000,{from:account.address,gas:gasLimit});
-      var b = await att.allowance(account.address, billAddr, {from:account.address,gas:gasLimit});
-      console.log(b);
-      // let arg = {method: 'animalDetect', url: 'http://t2.27270.com/uploads/tu/201612/357/7.png'};
-      await xiaoi.callAI('xiaoi', JSON.stringify({question:params.question}), {from:account.address,gas:gasLimit});
+      await att.balanceOf(account.address, callConf);
+      await att.approve(billAddr, 1000000, callConf);
+      await att.allowance(account.address, billAddr, callConf);
+      await consumer.callAI('xiaoi', args, callConf);
 
 
-      var eventNewCallback = xiaoi.newCallback();
-
+      const eventNewCallback = xiaoi.newCallback();
       result = await new Promise((resolve, reject) => {
-        eventNewCallback.watch(function (error, result) {
-          if (!error){
-            console.log(result);
-            resolve(result);
-          }else {
-            console.log(error);
-            resolve(error);
+        eventNewCallback.watch((err, res) => {
+          if (!err){
+            resolve(err);
+          } else {
+            resolve(res);
           }
           eventNewCallback.stopWatching();
         });
       });
 
-      console.log(result);
-
-      return new Message(type, code, JSON.stringify({answer: result.args._result}));
+      content = JSON.stringify({
+        answer: result.args._result
+      })
+      return new Message(type, code, content);
 
       //aliyun AI Market
     } else if (params.type === "aliface") {

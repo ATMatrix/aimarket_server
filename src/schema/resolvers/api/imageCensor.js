@@ -20,8 +20,6 @@ module.exports = async ({
   if (!image) throw 'image required'
   if (methods.indexOf(method) === -1)
     throw `method must in ${JSON.stringify(methods)}`
-  console.log(">>>>>>>>>>>>>>>>>>>")
-  console.log(image)
 
   const result = await client[method](image)
 

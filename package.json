@@ -19,6 +19,9 @@
   "homepage": "https://github.com/ATMatrix/aimarket_server#readme",
   "scripts": {
     "start": "babel-node src/server.js",
+    "dev": "NODE_ENV=development babel-node src/server.js",
+    "pro": "NODE_ENV=production babel-node src/server.js",
+    "tst": "NODE_ENV=test babel-node src/server.js",
     "build": "babel src/ --out-dir ./production",
     "copy": "cp -r src/util/config/ production/util/config/",
     "buildTest": "babel ./src/test.js --out-dir ./production",

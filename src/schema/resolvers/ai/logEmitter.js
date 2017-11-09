@@ -1,50 +1,60 @@
 'use strict';
+
 const {
   endpoint,
   account,
   cost,
-  busiAddr,
-  proxyAddr,
-  billAddr,
-  registerAddr,
   gasLimit,
-  attAddr
-} = require('../../../util/config/config.json');
+  contracts,
+} = require('../../../util/config').blockchain;
 
 const {
   web3,
-  xiaoiContrac,
-  busiContract,
-  ATTContract,
-  busi,
-  xiaoi,
+  biz,
+  consumer,
   att
-} = require('../../../util/contract/contract.js')
+} = require('../../../util/contracts.js')
 
 
-module.exports.callAI = async function (socket, msg) {
+module.exports.callAI = async (socket, msg) => {
   try {
     console.log(msg.aiID);
 
-    // await att.generateTokens(account.address,100000,{from:account.address,gas:gasLimit});
-    let a = await att.balanceOf(account.address,{from:account.address,gas:gasLimit});
+    const callConf = {
+      from: account.address,
+      gas: gasLimit,
+    }
+
+    const a = await att
+      .balanceOf(account.address, callConf);
     console.log(a);
-    await att.approve(billAddr, 1000000,{from:account.address,gas:gasLimit});
-    let b = await att.allowance(account.address, billAddr, {from:account.address,gas:gasLimit});
+
+    await att
+      .approve(billAddr, 1000000, callConf);
+
+    const b = await att
+      .allowance(account.address, contracts.bill, callConf);
     console.log(b);
+
     console.log(msg.args);
-    let aiID = msg.aiID;
-    let tx = await xiaoi.callAI(aiID, JSON.stringify(msg.args), {from:account.address,gas:gasLimit});
+
+    const aiID = msg.aiID;
+    const args = JSON.stringify(msg.args)
+    const tx = await consumer
+      .callAI(aiID, args, callConf);
     socket.emit('message', {
       stage : "BlockChain",
       err:'',
       res:'',
     })
-    let eventFundsFrozen = busi.EventFundsFrozen({transactionHash:tx});
+
+    const eventFundsFrozen = biz
+      .EventFundsFrozen({ transactionHash: tx });
+
     let callID;
-    eventFundsFrozen.watch((err, res)=>{
+    eventFundsFrozen.watch((err, res) => {
       console.log(res)
-      if(!err && res.transactionHash === tx){
+      if (!err && res.transactionHash === tx) {
         callID = res.args._callID;
         socket.emit('message', {
           stage:'FrozenFunds',
@@ -60,7 +70,7 @@ module.exports.callAI = async function (socket, msg) {
     let workerDone = false
     let deductFundsDone = false
 
-    let eventWorker = busi.EventWorker();
+    let eventWorker = biz.EventWorker();
     eventWorker.watch((err, res)=>{
       console.log(res)
       if(!err && res.args._callID.equals(callID)) {
@@ -82,10 +92,10 @@ module.exports.callAI = async function (socket, msg) {
       }
     })
 
-    let eventFundsDeduct = busi.EventFundsDeduct();
+    let eventFundsDeduct = biz.EventFundsDeduct();
     eventFundsDeduct.watch((err, res)=>{
       console.log(res)
-      if(!err && res.args._callID.equals(callID)) {
+      if (!err && res.args._callID.equals(callID)) {
         const resp = {
           stage:'DeductFunds',
           err,
@@ -105,7 +115,7 @@ module.exports.callAI = async function (socket, msg) {
       }
     })
 
-    let eventNewCallback = xiaoi.newCallback();
+    let eventNewCallback = consumer.newCallback();
     eventNewCallback.watch((err, res)=>{
       console.log(res)
       if(!err && res.args._callID.equals(callID)) {

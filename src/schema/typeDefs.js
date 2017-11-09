@@ -33,7 +33,7 @@ type Query {
     callAI(params:String!): Message!
     loginUser(user:User!):Message!
     setAttAddress(params:String!):Message!
-    getAttAddress(params:String!):Message!    
+    getAttAddress(params:String!):Message!
 }
 
 schema {
