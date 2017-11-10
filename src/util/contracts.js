@@ -12,9 +12,9 @@ const {
 const provider = new Web3.providers.HttpProvider(endpoint)
 const web3 = new Web3(provider)
 
-const consumerContract = web3.eth.contract(consumerArtifacts);
-const bizContract = web3.eth.contract(bizArtifacts);
-const attContract = web3.eth.contract(attArtifacts);
+const consumerContract = web3.eth.contract(consumerArtifacts.abi);
+const bizContract = web3.eth.contract(bizArtifacts.abi);
+const attContract = web3.eth.contract(attArtifacts.abi);
 
 export default {
   web3,

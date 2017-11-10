@@ -4,7 +4,7 @@ const {
   endpoint,
   account,
   cost,
-  gasLimit,
+  gas,
   contracts,
 } = require('../../../util/config').blockchain;
 
@@ -22,7 +22,7 @@ module.exports.callAI = async (socket, msg) => {
 
     const callConf = {
       from: account.address,
-      gas: gasLimit,
+      gas,
     }
 
     const a = await att
