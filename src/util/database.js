@@ -4,9 +4,10 @@
 
 'use strict';
 
-var mysql = require('mysql');
+import mysql from 'mysql';
+import config from './config'
 
-const poolConfig =
+const poolConfig = config.database
 
 //创建连接
 export const pool = mysql.createPool(poolConfig);
