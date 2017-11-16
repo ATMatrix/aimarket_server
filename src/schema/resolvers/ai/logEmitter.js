@@ -1,7 +1,7 @@
 'use strict';
 
 import contractUtil from '../../../util/contracts.js'
-import config from '../../../util/config'
+import config from '../../../../config'
 // import sendTx from './sendTx'
 // import rp from 'request-promise'
 

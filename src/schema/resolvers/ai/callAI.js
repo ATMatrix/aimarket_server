@@ -9,7 +9,7 @@ var rp = require('request-promise');
 
 //web3
 import fs from 'fs';
-import config from '../../../util/config'
+import config from '../../../../config'
 import contracts  from '../../../util/contracts'
 
 const {

@@ -1,9 +1,9 @@
 import Web3 from 'web3';
 
-import consumerArtifacts from './config/contracts/Consumer';
-import attArtifacts from './config/contracts/ATT';
-import bizArtifacts from './config/contracts/AIBusinessController';
-import config from './config'
+import consumerArtifacts from '../../config/contracts/Consumer';
+import attArtifacts from '../../config/contracts/ATT';
+import bizArtifacts from '../../config/contracts/AIBusinessController';
+import config from '../../config'
 
 const {
   endpoint,

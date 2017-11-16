@@ -5,7 +5,7 @@
 'use strict';
 
 import mysql from 'mysql';
-import config from './config'
+import config from '../../config'
 
 const poolConfig = config.database
 

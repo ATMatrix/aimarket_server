@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 const rp = require('request-promise')
-const config = require('./config')
+const config = require('../../config/live_demo/xiaoi')
 
 module.exports = async ({ question }) => {
   const {
