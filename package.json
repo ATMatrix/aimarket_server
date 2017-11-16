@@ -22,7 +22,7 @@
     "dev": "NODE_ENV=development babel-node src/server.js",
     "pro": "NODE_ENV=production babel-node src/server.js",
     "tst": "NODE_ENV=test babel-node src/server.js",
-    "build": "rm -rf production && babel src/ --out-dir ./production && cp -r src/util/config/* production/util/config/",
+    "build": "rm -rf production  && mkdir -p production/util/config && cp -r src/util/config/* production/util/config/ && babel src/ --out-dir ./production",
     "buildTest": "babel ./src/test.js --out-dir ./production",
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint"
@@ -35,6 +35,7 @@
     "body-parser": "^1.18.1",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
+    "ethereumjs-tx": "^1.3.3",
     "express": "^4.15.4",
     "graphql": "^0.10.5",
     "graphql-server-express": "^1.1.2",

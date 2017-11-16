@@ -9,7 +9,7 @@ var rp = require('request-promise');
 
 //web3
 import fs from 'fs';
-import { blockchain as config }  from '../../../util/config'
+import config from '../../../util/config'
 import contracts  from '../../../util/contracts'
 
 const {
@@ -17,7 +17,7 @@ const {
   account,
   cost,
   gasLimit,
-} = config;
+} = config.blockchain;
 
 const {
   web3,
