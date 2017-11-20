@@ -44,10 +44,12 @@
     "mysql": "^2.14.1",
     "node-fetch": "^1.7.3",
     "path": "^0.12.7",
+    "redis": "^2.8.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.4",
-    "web3": "^0.19.1"
+    "web3": "^0.19.1",
+    "unirest": "^0.5.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
