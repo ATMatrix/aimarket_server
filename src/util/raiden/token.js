@@ -57,7 +57,7 @@ class TokenTimes extends Token {
 
 class TokenOther extends Token {
   constructor(){
-
+    super();
   }
 }
 
