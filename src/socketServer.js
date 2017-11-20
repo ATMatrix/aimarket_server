@@ -4,6 +4,7 @@ const xiaoi = require('./xiaoi/index')
 
 module.exports.socketServer = function (server) {
   const io = require('socket.io')(server);
+  io.path('/demows');
   const connections = [];
   let roomUser = {};
   let roomId = 1;
