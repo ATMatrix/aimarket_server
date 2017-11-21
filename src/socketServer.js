@@ -3,8 +3,9 @@ const logEmitter = require('./schema/resolvers/ai/logEmitter')
 const xiaoi = require('./xiaoi/index')
 
 module.exports.socketServer = function (server) {
-  const io = require('socket.io')(server);
-  io.path('/wss');
+  const io = require('socket.io')(server,{
+    path: '/wss/socket.io'
+  });
   console.log("io: ",io)
   const connections = [];
   let roomUser = {};
