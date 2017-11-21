@@ -4,7 +4,7 @@ const xiaoi = require('./xiaoi/index')
 
 module.exports.socketServer = function (server) {
   const io = require('socket.io')(server,{
-    path: '/wss/socket.io'
+    path: '/wss'
   });
   console.log("io: ",io)
   const connections = [];
