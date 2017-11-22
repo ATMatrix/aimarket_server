@@ -211,6 +211,37 @@ app.get('/getAttAddress', function (req, res, next) {
     });
 });
 
+app.get('/getAiList', function (req, res, next) {
+    let user = {};
+    user.username = 'abc';
+    let GQL = `query  getAiListFunc($params: String) {
+                    getAiList(params:$params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                  params: ""
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("getAiList");
+        console.log(json);
+        res.send(json);
+    });
+});
+
 import {dbotRouter} from './router/index';
 
 app.use('/dbot', dbotRouter);

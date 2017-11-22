@@ -5,6 +5,7 @@
 'use strict';
 
 import {userDao} from './userDao/userDao';
+import {aiDao} from './aiDao/aiDao';
 
 //前置拦截器
 import frontInterceptor from './interceptor/frontInterceptor'
@@ -14,6 +15,7 @@ var dao = {};
 // dao.lotteryRecordDao = lotteryRecordDao;
 // dao.bettingRecordDao = bettingRecordDao;
 dao.userDao = userDao;
+dao.aiDao = aiDao;
 
 //baseDao
 export async function baseDao( module, method, params) {

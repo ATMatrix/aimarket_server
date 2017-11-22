@@ -34,6 +34,7 @@ type Query {
     loginUser(user:User!):Message!
     setAttAddress(params:String!):Message!
     getAttAddress(params:String!):Message!
+    getAiList(params:String):Message!
 }
 
 schema {

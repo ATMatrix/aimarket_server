@@ -6,7 +6,6 @@ module.exports.socketServer = function (server) {
   const io = require('socket.io')(server,{
     path: '/wss'
   });
-  console.log("io: ",io)
   const connections = [];
   let roomUser = {};
   let roomId = 1;
