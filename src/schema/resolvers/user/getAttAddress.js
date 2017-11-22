@@ -24,7 +24,7 @@ export async function getAttAddress() {
     if (checkExistUserObj.length !== 0) {
       let getAddrObj = await baseDao('userDao', 'getAttAddress', params);
       console.log("getAttAddress getAddrObj: ", getAddrObj);
-      if (getAddrObj[0].USER_ATT_ADDRESS !== undefined) {
+      if ( getAddrObj[0].USER_ATT_ADDRESS !== undefined && getAddrObj[0].USER_ATT_ADDRESS !== null) {
         content = getAddrObj[0].USER_ATT_ADDRESS;
       } else {
         //fail
@@ -38,6 +38,7 @@ export async function getAttAddress() {
 
     let type = "getAttAddress";
     let code = "600001";
+
     // return new Message(type, code, 'test');
     return new Message(type, code, content);
   } catch (err) {
