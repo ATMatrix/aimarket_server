@@ -24,5 +24,5 @@ if (isEmpty(blockchainConf) || isEmpty(databaseConf)) {
 
 module.exports = {
   blockchain: blockchainConf,
-  database: databaseConf
+  database: databaseConf,
 }
