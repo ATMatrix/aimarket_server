@@ -3,9 +3,8 @@ import config from '../../../../config/worker'
 
 export default async (params) => {
   const aiName = params.type
-  const workerConf = config.worker[aiName]
-  const Worker = new workers[aiName]
-
+  const workerConf = config[aiName]
+  const Worker = workers[aiName]
   if (!(Worker && workerConf)) throw '0'
   const worker = new Worker(workerConf)
 
