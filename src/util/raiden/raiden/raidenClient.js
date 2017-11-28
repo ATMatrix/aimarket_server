@@ -1,3 +1,5 @@
+'use strict';
+
 const unirest = require("unirest");
 
 class RaidenClient {

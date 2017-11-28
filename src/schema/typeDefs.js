@@ -35,6 +35,7 @@ type Query {
     setAttAddress(params:String!):Message!
     getAttAddress(params:String!):Message!
     getAiList(params:String):Message!
+    transfer(params:String):Message!
 }
 
 schema {

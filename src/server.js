@@ -211,6 +211,35 @@ app.get('/getAttAddress', function (req, res, next) {
     });
 });
 
+app.get('/transfer', (req, res, next) => {
+    let GQL = `query  transferFunc($params: String!) {
+        transfer(params:$params) {
+             code
+             type
+             content
+           }
+        }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                  params: ""
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    }).then(function (res) {
+        return res.json();
+    }).then(function (json) {
+      console.log("transfer");
+      console.log(json);
+      res.send(json);
+  });
+        
+})
+
 app.get('/getAiList', function (req, res, next) {
     let user = {};
     user.username = 'abc';

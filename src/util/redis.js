@@ -10,7 +10,8 @@ const redisConfig = {
   host:'106.14.207.120',
   port:'6379'
 }
-module.exports = client = redis.createClient(redisConfig);
+
+const client = redis.createClient(redisConfig)
 
 client.on("error", function (err) {
   console.log("Error " + err);
@@ -26,7 +27,7 @@ client.on("connect", function () {
   }
   client.hmset(xiaoi, o);
   client.hgetall(xiaoi, redis.print)
-  consumer_address = '0x00eb5ca24922a29e25e748025c28e8a654339aea';
+  const consumer_address = '0x00eb5ca24922a29e25e748025c28e8a654339aea';
   // let token = new TokenFree();
   // client.set(consumer_address, JSON.stringify(token));
   // client.get(consumer_address, (e, o) => {
@@ -41,3 +42,4 @@ client.on("connect", function () {
   // })
 });
 
+module.exports = client;

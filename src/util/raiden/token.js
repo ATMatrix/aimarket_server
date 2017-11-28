@@ -1,30 +1,29 @@
-
 const TOKEN_VALID = "valid";
 const TOKEN_INVALID = "invalid";
 
 const IntervalType = {
-  "day":"0",
-  "month":"1",
-  "quarter":"2",
-  "year":"3"
+  "day": "0",
+  "month": "1",
+  "quarter": "2",
+  "year": "3"
 }
 
 class Token {
-  constructor(){
+  constructor() {
     this.expire = TOKEN_INVALID;
   }
 
 }
 
 class TokenFree extends Token {
-  constructor(){
+  constructor() {
     super();
     this.expire = TOKEN_VALID;
   }
 }
 
 class TokenInterval extends Token {
-  constructor(intervalType){
+  constructor(intervalType) {
     super();
     switch (intervalType) {
       case IntervalType["day"]:
@@ -47,7 +46,7 @@ class TokenInterval extends Token {
 }
 
 class TokenTimes extends Token {
-  constructor(freeTimes){
+  constructor(freeTimes) {
     super();
     this.freeTimes = freeTimes;
     this.callTimes = 0;
@@ -56,7 +55,7 @@ class TokenTimes extends Token {
 }
 
 class TokenOther extends Token {
-  constructor(){
+  constructor() {
     super();
   }
 }

@@ -1,5 +1,7 @@
-const raiden = require('./raidenClient');
-const charge = require('./charge');
+'use strict';
+
+const RaidenClient = require('./raidenClient');
+const charge = require('../charge');
 
 const token_addr = "0x0f114a1e9db192502e7856309cc899952b3db1ed";
 
@@ -8,8 +10,8 @@ class RaidenBilling {
     this._consumer_url = consumer_url;
     this._beneficiary_url = beneficiary_url;
     this._token_addr = token_addr;
-    this._consumer_raiden = new raiden(this._consumer_url);
-    this._beneficiary_raiden = new raiden(this._beneficiary_url);
+    this._consumer_raiden = new RaidenClient(this._consumer_url);
+    this._beneficiary_raiden = new RaidenClient(this._beneficiary_url);
     this._charge = new charge;
   }
 
@@ -39,6 +41,8 @@ class RaidenBilling {
   }
 
 }
+
+module.exports = RaidenBilling;
 
 const bill = new RaidenBilling("http://106.14.207.120:5001","http://106.14.207.120:5002");
 aiID = Buffer.from('xiaoi', 'utf8').toString("hex")
