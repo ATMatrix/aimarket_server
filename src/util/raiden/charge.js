@@ -73,8 +73,8 @@ class charge {
             Object.assign(tokenInterval, token);
             tokenInterval.expire = TOKEN_VALID;
             console.log("after", tokenInterval);
-            client.set(addr, JSON.stringify(tokenInterval), 'EX', Number.parseInt(tokenInterval.daysAfter)); //test
-            // client.set(addr, JSON.stringify(tokenInterval), 'EX', Number.parseInt(TokenInterval.daysAfter*24*60*60));
+            // client.set(addr, JSON.stringify(tokenInterval), 'EX', Number.parseInt(tokenInterval.daysAfter)); //test
+            client.set(addr, JSON.stringify(tokenInterval), 'EX', Number.parseInt(TokenInterval.daysAfter*24*60*60));
           }
         }
         break;

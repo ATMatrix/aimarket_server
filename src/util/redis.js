@@ -18,9 +18,9 @@ client.on("error", function (err) {
 });
 
 client.on("connect", function () {
-  let xiaoi = Buffer.from('xiaoi', 'utf8').toString("hex")
+  let xiaoi = Buffer.from('XIAO_I', 'utf8').toString("hex")
   let o = {
-    "AI_NAME": "xiaoi", // NOTE: key and value will be coerced to strings
+    "AI_NAME": "XIAO_I", // NOTE: key and value will be coerced to strings
     "AI_BILLING_TYPE": "1",
     "AI_ARG0": "1",
     "AI_ARG1": "1"

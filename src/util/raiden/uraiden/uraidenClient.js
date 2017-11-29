@@ -9,6 +9,7 @@ class URaidenClient {
     this._version = version;
     this._apis = {
       'transfer': `/api/${this._version}/channels/transfer`,
+      'channels': `/api/${this._version}/channels`
     }
   }
 
@@ -19,6 +20,16 @@ class URaidenClient {
       .send({
         balance,
         balance_signature
+      });
+    return unirest_prom(req);
+  }
+
+  closeChannel(sender_address, opening_block, balance) {
+    let req = unirest.delete(`${this._url}${this._apis['channels']}/${sender_address}/${opening_block}`)
+      .type("json")
+      .header('charset', 'UTF-8')
+      .send({
+        balance
       });
     return unirest_prom(req);
   }

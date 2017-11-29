@@ -36,6 +36,8 @@ type Query {
     getAttAddress(params:String!):Message!
     getAiList(params:String):Message!
     transfer(params:String):Message!
+    closeChannel(params:String):Message!
+    getPrice(params:String):Message!
 }
 
 schema {

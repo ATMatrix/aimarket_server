@@ -26,6 +26,10 @@ class URaidenBilling {
     }
   }
 
+  async closeChannel(sender_addr, opening_block, balance) {
+    return await this._uraiden.closeChannel(sender_addr, opening_block, balance);
+  }
+
 }
 
 module.exports = URaidenBilling;
