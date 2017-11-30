@@ -271,9 +271,11 @@ app.get('/getAiList', function (req, res, next) {
     });
 });
 
-import {dbotRouter} from './router/index';
+import {dbotRouter, billRouter} from './router/index';
 
 app.use('/dbot', dbotRouter);
+
+app.use('/bill', billRouter);
 
 app.use('/graphql', cors(corsOptions), bodyParser.json(), graphqlExpress({schema: schema}));
 

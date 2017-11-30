@@ -49,8 +49,9 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.4",
-    "web3": "^0.19.1",
-    "unirest": "^0.5.1"
+    "truffle-contract": "^3.0.1",
+    "unirest": "^0.5.1",
+    "web3": "^0.19.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
