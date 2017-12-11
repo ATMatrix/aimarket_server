@@ -5,6 +5,7 @@
 'use strict';
 
 import {getAiList} from './getAiList'
+import {getAiDetails} from './getAiDetails'
 
 
 //aiDao
@@ -27,3 +28,4 @@ export function aiDao(module, method, params) {
 //功能Dao--注册--
 let dao = {};
 dao.getAiList=getAiList;
+dao.getAiDetails = getAiDetails
