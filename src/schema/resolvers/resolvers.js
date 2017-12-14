@@ -26,11 +26,8 @@ export const resolvers = {
     setAttAddress,
     getAttAddress,
     getAiList,
-<<<<<<< HEAD
     getPrice,
-=======
     getAiDetails,
->>>>>>> 6ee8a5fb0abb2d2836bb46f92c8b3b7b912e5879
     transfer,
     closeChannel,
     openChannel,
