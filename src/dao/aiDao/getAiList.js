@@ -28,7 +28,7 @@ export function getAiList(module, method, params) {
               resolve(postInterceptor(results));
           });
       }).catch((error)=>{
-          reject(error);                
+          reject(error);
       })
   });
 

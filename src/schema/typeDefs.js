@@ -35,6 +35,7 @@ type Query {
     setAttAddress(params:String!):Message!
     getAttAddress(params:String!):Message!
     getAiList(params:String):Message!
+    getAiDetails(id:Int!):Message!
     transfer(params:String):Message!
     closeChannel(params:String):Message!
     getPrice(params:String):Message!

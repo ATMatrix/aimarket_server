@@ -71,3 +71,74 @@ u  `AI_NAME_CN` varchar(255) NOT NULL COMMENT 'AI中文名',
   `EXT_3` varchar(255) DEFAULT NULL COMMENT '备用字段3',
   PRIMARY KEY (`AI_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+// ai details: request
+-- ----------------------------
+-- Table structure for t_ai_request
+-- ----------------------------
+DROP TABLE IF EXISTS `t_ai_request`;
+CREATE TABLE `t_ai_request` (
+  `REQUEST_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'REQUEST_ID',
+  `AI_ID` int(11) NOT NULL COMMENT '所属的AI_ID',
+  `TITLE` varchar(255) NOT NULL COMMENT '标题',
+  `TYPE` varchar(255) NOT NULL COMMENT 'AI类型',
+  `DESCRIBE` varchar(255) DEFAULT NULL COMMENT '描述',
+  `EXT_1` varchar(255) DEFAULT NULL COMMENT '备用字段1',
+  `EXT_2` varchar(255) DEFAULT NULL COMMENT '备用字段2',
+  `EXT_3` varchar(255) DEFAULT NULL COMMENT '备用字段3',
+  PRIMARY KEY (`REQUEST_ID`),
+  FOREIGN KEY (`AI_ID`) REFERENCES t_ai(`AI_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+// ai details: request form
+-- ----------------------------
+-- Table structure for t_request_form
+-- ----------------------------
+DROP TABLE IF EXISTS `t_request_form`;
+CREATE TABLE `t_request_form` (
+  `FORM_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'FORM_ID',
+  `REQUEST_ID` int(11) NOT NULL COMMENT '所属的REQUEST_ID',
+  `TITLE` varchar(255) NOT NULL COMMENT '标题',
+  `EXT_1` varchar(255) DEFAULT NULL COMMENT '备用字段1',
+  `EXT_2` varchar(255) DEFAULT NULL COMMENT '备用字段2',
+  `EXT_3` varchar(255) DEFAULT NULL COMMENT '备用字段3',
+  PRIMARY KEY (`FORM_ID`),
+  FOREIGN KEY (`REQUEST_ID`) REFERENCES t_ai_request(`REQUEST_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+// ai details: form field
+-- ----------------------------
+-- Table structure for t_form_field
+-- ----------------------------
+DROP TABLE IF EXISTS `t_form_field`;
+CREATE TABLE `t_form_field` (
+  `FIELD_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'FIELD_ID',
+  `FORM_ID` int(11) NOT NULL COMMENT '所属的FORM_ID',
+  `NAME` varchar(255) NOT NULL COMMENT '名称',
+  `TYPE` varchar(255) NOT NULL COMMENT ' 数据类型',
+  `REQUIRED` int(1) DEFAULT 0 COMMENT '是否必填',
+  `DESCRIBE` varchar(255) DEFAULT NULL COMMENT '描述',
+  `PLACE_HOLDER` varchar(255) DEFAULT NULL COMMENT 'place holder',
+  `EXT_1` varchar(255) DEFAULT NULL COMMENT '备用字段1',
+  `EXT_2` varchar(255) DEFAULT NULL COMMENT '备用字段2',
+  `EXT_3` varchar(255) DEFAULT NULL COMMENT '备用字段3',
+  PRIMARY KEY (`FIELD_ID`),
+  FOREIGN KEY (`FORM_ID`) REFERENCES t_request_form(`FORM_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+// ai details: api
+-- ----------------------------
+-- Table structure for t_ai_api
+-- ----------------------------
+DROP TABLE IF EXISTS `t_ai_api`;
+CREATE TABLE `t_ai_api` (
+  `API_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'API_ID',
+  `AI_ID` int(11) NOT NULL COMMENT '所属的AI_ID',
+  `TITLE` varchar(255) NOT NULL COMMENT '标题',
+  `METHOD` varchar(255) NOT NULL COMMENT '请求方法',
+  `EXT_1` varchar(255) DEFAULT NULL COMMENT '备用字段1',
+  `EXT_2` varchar(255) DEFAULT NULL COMMENT '备用字段2',
+  `EXT_3` varchar(255) DEFAULT NULL COMMENT '备用字段3',
+  PRIMARY KEY (`API_ID`),
+  FOREIGN KEY (`AI_ID`) REFERENCES t_ai(`AI_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;

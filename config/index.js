@@ -11,6 +11,8 @@ if (!ENV) {
 let blockchainConf = blockchain[ENV]
 let databaseConf = database[ENV]
 
+console.log("ENV: ",ENV)
+
 function isEmpty(obj) {
   return !obj
     || Object.getOwnPropertyNames(obj).length === 0
