@@ -1,11 +1,11 @@
 'use strict';
 const charge = require('../charge');
-const URaidenClient = require('./uraidenClient');
+const MicroRaiden = require('./uraiden');
 
 class URaidenBilling {
   constructor(_url) {
     this._url = _url;
-    this._uraiden = new URaidenClient(this._url);
+    this._uraiden = new MicroRaiden(this._url);
     this._charge = new charge;
   }
 
@@ -13,11 +13,12 @@ class URaidenBilling {
     return await this._charge.getPrice(ai_id, sender_addr);
   }
 
-  async bill(ai_id, sender_addr, opening_block, balance, balance_signature) {
+  async bill(ai_id, sender_addr, receiver_addr, block_number, balance, price) {
     let fee = await this.getPrice(ai_id, sender_addr);
     console.log("fee:",fee); 
-    if(balance < fee) throw 'more balance required';  //todo:: before balance + fee < balance
-    let res = await this._uraiden.transfer(sender_addr, opening_block, balance, balance_signature);
+    if((+price) != (+fee)) throw 'price changed';  
+    balance = (+balance) + (+fee);
+    let res = await this._uraiden.incrementBalanceAndSign(sender_addr, receiver_addr, block_number, balance);
     if(res.statusCode == '200'){
       await this._charge.resetToken(fee, ai_id, sender_addr);
       return true;
@@ -26,10 +27,25 @@ class URaidenBilling {
     }
   }
 
-  async closeChannel(sender_addr, opening_block, balance) {
-    return await this._uraiden.closeChannel(sender_addr, opening_block, balance);
+  async openChannel(receiver_addr, deposit) {
+    return await this._uraiden.openChannel(receiver_addr, deposit);
   }
 
+  async topUpChannel(receiver_addr, block_number, deposit) {
+    return await this._uraiden.topUpChannel(receiver_addr, block_number, deposit);
+  }
+
+  async closeChannel(receiver_addr, block_number, balance) {
+    return await this._uraiden.closeChannel(receiver_addr, block_number, balance);
+  }
+
+  async settleChannel(receiver_addr, block_number) {
+    return await this._uraiden.settleChannel(receiver_addr, block_number);
+  }
+
+  async getChannels(sender_addr, block_number, status) {
+    return await this._uraiden.getChannels(sender_addr, block_number, status);
+  }
 }
 
 module.exports = URaidenBilling;

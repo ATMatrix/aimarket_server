@@ -12,7 +12,7 @@ import {callAI} from './ai/callAI';
 import {setAttAddress} from './user/setAttAddress';
 import {getAttAddress} from './user/getAttAddress';
 import {getAiList} from './ai/getAiList';
-import {transfer, closeChannel, getPrice} from './bill/bill';
+import {transfer, closeChannel, getPrice, openChannel, topUpChannel, settleChannel, getChannels} from './bill/bill';
 
 
 export const resolvers = {
@@ -24,8 +24,12 @@ export const resolvers = {
     setAttAddress,
     getAttAddress,
     getAiList,
+    getPrice,
     transfer,
     closeChannel,
-    getPrice
+    openChannel,
+    topUpChannel,
+    settleChannel,
+    getChannels
   }
 };
