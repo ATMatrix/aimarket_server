@@ -14,8 +14,6 @@ import {getAttAddress} from './user/getAttAddress';
 import {getAiList} from './ai/getAiList';
 import {transfer, closeChannel, getPrice, openChannel, topUpChannel, settleChannel, getChannels} from './bill/bill';
 import {getAiDetails} from './ai/getAiDetails';
-import {transfer, closeChannel, getPrice} from './bill/bill';
-
 
 export const resolvers = {
   Query: {
