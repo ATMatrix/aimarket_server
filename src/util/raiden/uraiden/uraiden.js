@@ -206,7 +206,6 @@ class MicroRaiden {
   async incrementBalanceAndSign(sender_address, receiver_address, block_number, newBalance) {
     let sign = await this.signBalance(receiver_address, block_number, newBalance);
     let res = await this.transfer(sender_address, block_number, newBalance, sign);
-    console.log(res);
     return res;
   }
 

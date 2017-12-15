@@ -23,7 +23,6 @@ export function getAiList(module, method, params) {
               if (error) {
                   reject(error);
               }
-              console.log(results);
               conn.release();
               resolve(postInterceptor(results));
           });
