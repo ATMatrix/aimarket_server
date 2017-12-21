@@ -136,7 +136,7 @@ class MicroRaiden {
     let info = await this.contract.getChannelInfo(
       account.address,
       receiver_address,
-      tx.receipt.blockNumber,
+      block_number,
       callConf
     );
     console.log(info);

@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {getAiList} from './getAiList'
+import {getAiList, getAiInfo} from './getAiList'
 import {getAiDetails} from './getAiDetails'
 
 
@@ -29,3 +29,4 @@ export function aiDao(module, method, params) {
 let dao = {};
 dao.getAiList=getAiList;
 dao.getAiDetails = getAiDetails
+dao.getAiInfo = getAiInfo
