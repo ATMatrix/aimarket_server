@@ -18,7 +18,7 @@ billRouter.use(function timeLog2(req, res, next) {
 
 billRouter.use(jsonParser);
 
-billRouter.get('/api/v1/getAiList', async (req, res) => {
+billRouter.get('/api/1/getAiList', async (req, res) => {
   let objs = await getAiList(req.query.tags);
   let result = [];
   for (let o of objs) {
@@ -35,7 +35,7 @@ billRouter.get('/api/v1/getAiList', async (req, res) => {
   res.send(result)
 });
 
-billRouter.get('/api/v1/getAiInfo', async (req, res) => {
+billRouter.get('/api/1/getAiInfo', async (req, res) => {
   let objs = await getAiInfo(req.query.id);
   let result;
   for (let o of objs) {
@@ -53,14 +53,14 @@ billRouter.get('/api/v1/getAiInfo', async (req, res) => {
   res.send(result)
 });
 
-billRouter.post('/api/v1/callAI', async (req, res) => {
+billRouter.post('/api/1/callAI', async (req, res) => {
   let params = req.body;
   let result = await callAI(params);
   console.log(result)
   res.send(result);
 })
 
-billRouter.get('/api/v1/getPrice', async (req, res) => {
+billRouter.get('/api/1/getPrice', async (req, res) => {
   let params = req.query;
   let result = await getPrice(params);
   res.send(result)
