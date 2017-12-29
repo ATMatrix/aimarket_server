@@ -4,7 +4,6 @@ import {
   Message
 } from '../../objects';
 import _ from 'lodash';
-import query from '../ai/query';
 const unirest = require("unirest");
 const URaidenBilling = require("../../../util/raiden/uraiden/uraidenBilling")
 const uraidenServerUrl = 'http://127.0.0.1:5000';
@@ -32,11 +31,12 @@ export async function transfer() {
     let code = "600001";
     let params = JSON.parse(arguments[1].params);
     let ai_id = Buffer.from(params.ai_id, 'utf8').toString("hex")    
-    let res = await bill.bill(ai_id, params.sender_addr, params.receiver_addr, params.block_number, params.balance, params.price)
-    if(res === true){   
-      content = await query({type:params.ai_id, question : params.input});
-      console.log(content);
-    }
+    console.log("transfer params: ", params);
+    let res = await bill.bill(ai_id, params.sender_addr, params.receiver_addr, params.opening_block, params.balance, params.price, params.balance_signature)
+    // if(res === true){   
+    //   content = await query({type:params.ai_id, question : params.input});
+    //   console.log(content);
+    // }
     return new Message(type, code, content);
   } catch (err) {
     console.log(err);
@@ -76,11 +76,13 @@ export async function topUpChannel() {
 
 export async function closeChannel() {
   try {
+    console.log("server close channel params: ", arguments);
     let content = 'fail';
     let type = "closeChannel";
     let code = "600001";
     let params = JSON.parse(arguments[1].params);
     let res = await bill.closeChannel(params.receiver_addr, params.block_number, params.balance);
+    console.log("-------res-------", res);
     content = JSON.stringify(res);
     return new Message(type, code, content);
   } catch (err) {
@@ -110,6 +112,7 @@ export async function getChannels() {
     let type = "getChannels";
     let code = "600001";
     let params = JSON.parse(arguments[1].params);
+    console.log("____params______", params);
     let res = await bill.getChannels(params.sender_addr, params.block_number, params.status);
     content = (res.body);
     return new Message(type, code, content);

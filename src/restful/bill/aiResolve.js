@@ -3,7 +3,6 @@
 const {
   baseDao
 } = require('../../dao/baseDao');
-import query from '../../schema/resolvers/ai/query';
 const URaidenBilling = require("../../util/raiden/uraiden/uraidenBilling")
 const uraidenServerUrl = 'http://127.0.0.1:5000';
 const bill = new URaidenBilling(uraidenServerUrl);

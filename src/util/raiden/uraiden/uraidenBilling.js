@@ -13,12 +13,12 @@ class URaidenBilling {
     return await this._charge.getPrice(ai_id, sender_addr);
   }
 
-  async bill(ai_id, sender_addr, receiver_addr, block_number, balance, price) {
+  async bill(ai_id, sender_addr, receiver_addr, block_number, balance, price, sign) {
     let fee = await this.getPrice(ai_id, sender_addr);
     console.log("fee:",fee); 
     if((+price) != (+fee)) throw 'price changed';  
     balance = (+balance) + (+fee);
-    let res = await this._uraiden.incrementBalanceAndSign(sender_addr, receiver_addr, block_number, balance);
+    let res = await this._uraiden.incrementBalanceAndSign(sender_addr, receiver_addr, block_number, balance, sign);
     if(res.statusCode == '200'){
       await this._charge.resetToken(fee, ai_id, sender_addr);
       return true;

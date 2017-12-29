@@ -1,6 +1,5 @@
 'use strict';
 const logEmitter = require('./schema/resolvers/ai/logEmitter')
-const xiaoi = require('./xiaoi/index')
 
 module.exports.socketServer = function (server) {
   const io = require('socket.io')(server,{

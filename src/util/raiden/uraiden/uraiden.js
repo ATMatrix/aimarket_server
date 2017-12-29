@@ -146,30 +146,31 @@ class MicroRaiden {
   async closeChannel(receiver_address, block_number, balance) {
     // let a = await token.balanceOf(account.address, callConf);
     // console.log(a);
+    console.log("==========close channel start======")
     let res = await this.closeRequest(account.address, block_number, balance);
     let closeSign = res.body.close_signature;
-    let sign = await this.signBalance(receiver_address, block_number, balance);
-    let params = [
-      receiver_address,
-      block_number,
-      this.num2bal(balance),
-      sign
-    ];
-    let paramsTypes = "address,uint32,uint192,bytes";
-    if (closeSign) {
-      params.push(closeSign);
-      paramsTypes += ",bytes";
-    }
-    let tx = await this.contract.contract.close(
-      ...params,
-      callConf
-    );
-    console.log(tx);
-    let receipt = await this.waitTx(tx, 0);
-    console.log(receipt);
+    let result = {close_signature: closeSign};
+    // let params = [
+    //   receiver_address,
+    //   block_number,
+    //   this.num2bal(balance),
+    //   sign
+    // ];
+    // let paramsTypes = "address,uint32,uint192,bytes";
+    // if (closeSign) {
+    //   params.push(closeSign);
+    //   paramsTypes += ",bytes";
+    // }
+    // let tx = await this.contract.contract.close(
+    //   ...params,
+    //   callConf
+    // );
+    // console.log(tx);
+    // let receipt = await this.waitTx(tx, 0);
+    // console.log("0000000000", receipt);
     // a = await token.balanceOf(account.address, callConf);
     // console.log(a);
-    return receipt;
+    return result;
   }
 
   async settleChannel(receiver_address, block_number) {
@@ -181,7 +182,7 @@ class MicroRaiden {
     );
     let receipt = await this.waitTx(tx, 0);
     console.log(receipt);
-    return receipt;
+    return closeSign;
   }
 
   async signMessage(msg) {
@@ -203,8 +204,8 @@ class MicroRaiden {
     return await this.signMessage(msg);
   }
 
-  async incrementBalanceAndSign(sender_address, receiver_address, block_number, newBalance) {
-    let sign = await this.signBalance(receiver_address, block_number, newBalance);
+  async incrementBalanceAndSign(sender_address, receiver_address, block_number, newBalance, sign) {
+    // let sign = await this.signBalance(receiver_address, block_number, newBalance);
     let res = await this.transfer(sender_address, block_number, newBalance, sign);
     return res;
   }

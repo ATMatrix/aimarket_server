@@ -4,7 +4,6 @@
 
 'use strict';
 import { Message } from '../../objects'
-import query from './query'
 
 const metType = 'callAI'
 const codes = {
