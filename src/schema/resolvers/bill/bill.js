@@ -4,6 +4,7 @@ import {
   Message
 } from '../../objects';
 import _ from 'lodash';
+import query from '../ai/query';
 const unirest = require("unirest");
 const URaidenBilling = require("../../../util/raiden/uraiden/uraidenBilling")
 const uraidenServerUrl = 'http://127.0.0.1:5000';
@@ -33,10 +34,11 @@ export async function transfer() {
     let ai_id = Buffer.from(params.ai_id, 'utf8').toString("hex")    
     console.log("transfer params: ", params);
     let res = await bill.bill(ai_id, params.sender_addr, params.receiver_addr, params.opening_block, params.balance, params.price, params.balance_signature)
-    // if(res === true){   
-    //   content = await query({type:params.ai_id, question : params.input});
-    //   console.log(content);
-    // }
+    console.log("======res======", res);
+    if(res === true){   
+      content = await query({type:params.ai_id, question : params.input});
+      console.log(content);
+    }
     return new Message(type, code, content);
   } catch (err) {
     console.log(err);
