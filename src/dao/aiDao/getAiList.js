@@ -16,7 +16,11 @@ export function getAiList(module, method, params) {
     //some code
     console.log('aiDao-getAiList');
     console.log(params) //todo::根据params 返回相应结果，加入ORM：sequelize
-    let SQL = `SELECT * FROM t_ai`
+    let SQL = `select * from \`t_ai\` ai
+    left join \`t_ai_api\` api on ai.\`AI_ID\` = api.\`AI_ID\`
+    left join \`t_ai_request\` req on req.\`AI_ID\` = ai.\`AI_ID\`
+    left join \`t_request_form\` form on req.\`REQUEST_ID\` = form.\`REQUEST_ID\`
+    left join \`t_form_field\` field on field.\`FORM_ID\` = form.\`FORM_ID\``    
     return new Promise((resolve, reject) => {
       poolConnection().then((conn)=>{
           conn.query(SQL, (error, results, fields) => {
@@ -24,7 +28,7 @@ export function getAiList(module, method, params) {
                   reject(error);
               }
               conn.release();
-              resolve(postInterceptor(results));
+              resolve(postInterceptor(results));            //todo::未考虑多个feild情况 需要解析feild
           });
       }).catch((error)=>{
           reject(error);
@@ -36,7 +40,12 @@ export function getAiList(module, method, params) {
 export function getAiInfo(module, method, id) {
     //some code
     console.log('aiDao-getAiList');
-    let SQL = `SELECT * FROM t_ai where t_ai.AI_ID = ${id}`
+    let SQL = `select * from \`t_ai\` ai
+    left join \`t_ai_api\` api on ai.\`AI_ID\` = api.\`AI_ID\`
+    left join \`t_ai_request\` req on req.\`AI_ID\` = ai.\`AI_ID\`
+    left join \`t_request_form\` form on req.\`REQUEST_ID\` = form.\`REQUEST_ID\`
+    left join \`t_form_field\` field on field.\`FORM_ID\` = form.\`FORM_ID\`
+    where ai.\`AI_ID\` = ${id}`
     return new Promise((resolve, reject) => {
       poolConnection().then((conn)=>{
           conn.query(SQL, (error, results, fields) => {
