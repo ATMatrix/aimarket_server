@@ -301,6 +301,153 @@ app.get('/getAiDetails', function (req, res, next) {
     });
 });
 
+app.get('/getChannel', function (req, res, next) {
+      let GQL = `query  getChannelFunc($params: String!) {
+                        getChannel(params: $params) {
+                                    code
+                                    type
+                                    content
+                                  }
+                               }`;
+      fetch('http://127.0.0.1:4000/graphql', {
+          method: 'POST',
+          body: JSON.stringify(
+            {
+                query: GQL,
+                variables: {
+                  params: JSON.stringify({ account: "0x47d1ba802dca4c88871dc594249905c42b7d21b7", aiId: 5 })
+                }
+            }
+          ),
+          headers: {'Content-Type': 'application/json'}
+      })
+        .then(function (res) {
+            return res.json();
+        }).then(function (json) {
+          console.log("getChannel");
+          console.log(json);
+          res.send(json);
+      });
+  });
+
+  app.get('/openChannel', function (req, res, next) {
+    let GQL = `query  openChannelFunc($params: String!) {
+                      openChannel(params: $params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                params: JSON.stringify({ aiId: 5, account: "0x47d1ba802dca4c88871dc594249905c42b7d21b7", receiver: "0x9765E2D8467334198b402e4D4551Dd49e63327Ec", deposit: 100, balance: 0, remaining: 100, state: "open", block: 5323640 })
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("openChannel");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+app.get('/topUpChannel', function (req, res, next) {
+    let GQL = `query  topUpChannelFunc($params: String!) {
+                        topUpChannel(params: $params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                params: JSON.stringify({ deposit: 102, remaining: 102, aiId: 5, account: "0x47d1ba802dca4c88871dc594249905c42b7d21b7" })
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("topUpChannel");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+app.get('/closeChannel', function (req, res, next) {
+    let GQL = `query  closeChannelFunc($params: String!) {
+                        closeChannel(params: $params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                params: JSON.stringify({ aiId: 5, account: '0x47d1ba802dca4c88871dc594249905c42b7d21b7' })
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("closeChannel");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+app.get('/getAiInfo', function (req, res, next) {
+    let GQL = `query  getAiInfoFunc($params: String!) {
+                        getAiInfo(params: $params) {
+                                  code
+                                  type
+                                  content
+                                }
+                             }`;
+    fetch('http://127.0.0.1:4000/graphql', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+              query: GQL,
+              variables: {
+                params: JSON.stringify({ aiId: 5 })
+              }
+          }
+        ),
+        headers: {'Content-Type': 'application/json'}
+    })
+      .then(function (res) {
+          return res.json();
+      }).then(function (json) {
+        console.log("getAiInfo");
+        console.log(json);
+        res.send(json);
+    });
+});
+
+
+
 import {dbotRouter, billRouter} from './router/index';
 
 app.use('/dbot', dbotRouter);

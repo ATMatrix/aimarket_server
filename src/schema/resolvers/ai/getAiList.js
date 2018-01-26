@@ -41,3 +41,20 @@ export async function getAiDetails() {
         return new Message("error", "400001", err);
     }
 }
+
+export async function getAiInfo() {
+    try {
+        let params = JSON.parse(arguments[1].params)
+        //访问数据库Dao
+        let getAddrObj = await baseDao('aiDao', 'getAiInfo', params);
+        console.log("getAiInfo", getAddrObj);
+        let content = JSON.stringify(getAddrObj);
+        let type = "getAiInfo";
+        let code = "600001";
+        return new Message(type, code, content);
+    }
+    catch (err) {
+        console.log(err);
+        return new Message("error", "400001", err);
+    }
+}

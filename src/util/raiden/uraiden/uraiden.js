@@ -205,12 +205,14 @@ class MicroRaiden {
   }
 
   async incrementBalanceAndSign(sender_address, receiver_address, block_number, newBalance, sign) {
-    // let sign = await this.signBalance(receiver_address, block_number, newBalance);
+    // console.log("uraiden 208", sign)
+    // sign = await this.signBalance(receiver_address, block_number, newBalance);
     let res = await this.transfer(sender_address, block_number, newBalance, sign);
     return res;
   }
 
   transfer(sender_address, block_number, balance, balance_signature) {
+    console.log("uraiden transfer balance", balance);
     let req = unirest.put(`${this._url}${this._apis['transfer']}/${sender_address}/${block_number}`)
       .type("json")
       .header('charset', 'UTF-8')

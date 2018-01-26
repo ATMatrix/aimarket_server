@@ -6,7 +6,7 @@
 
 import {userDao} from './userDao/userDao';
 import {aiDao} from './aiDao/aiDao';
-
+import {channelDao} from './channelDao/channelDao'
 //前置拦截器
 import frontInterceptor from './interceptor/frontInterceptor'
 
@@ -16,6 +16,7 @@ var dao = {};
 // dao.bettingRecordDao = bettingRecordDao;
 dao.userDao = userDao;
 dao.aiDao = aiDao;
+dao.channelDao = channelDao;
 
 //baseDao
 export async function baseDao( module, method, params) {
@@ -24,7 +25,7 @@ export async function baseDao( module, method, params) {
     await frontInterceptor();
     
     //promise
-    console.log('baseDao');
+    console.log('baseDao', dao);
 
     //cant find dao
     if(!dao[module]) {

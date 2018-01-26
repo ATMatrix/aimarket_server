@@ -4,8 +4,9 @@
 
 'use strict';
 
-import {getAiList, getAiInfo} from './getAiList'
+import {getAiList} from './getAiList'
 import {getAiDetails} from './getAiDetails'
+import {getAiInfo} from './getAiInfo'
 
 
 //aiDao

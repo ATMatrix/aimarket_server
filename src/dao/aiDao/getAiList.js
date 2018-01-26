@@ -33,22 +33,3 @@ export function getAiList(module, method, params) {
 
 }
 
-export function getAiInfo(module, method, id) {
-    //some code
-    console.log('aiDao-getAiList');
-    let SQL = `SELECT * FROM t_ai where t_ai.AI_ID = ${id}`
-    return new Promise((resolve, reject) => {
-      poolConnection().then((conn)=>{
-          conn.query(SQL, (error, results, fields) => {
-              if (error) {
-                  reject(error);
-              }
-              conn.release();
-              resolve(postInterceptor(results));
-          });
-      }).catch((error)=>{
-          reject(error);
-      })
-  });
-
-}

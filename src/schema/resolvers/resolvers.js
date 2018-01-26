@@ -10,9 +10,9 @@ import {loginUser} from './user/loginUser';
 import {addUser} from './user/addUser';
 import {callAI} from './ai/callAI';
 import {setAttAddress, getAttAddress} from './user/setAttAddress';
-import {getAiList, getAiDetails} from './ai/getAiList';
-import {transfer, closeChannel, getPrice, openChannel, topUpChannel, settleChannel, getChannels} from './bill/bill';
-
+import {getAiList, getAiDetails, getAiInfo} from './ai/getAiList';
+import {transfer, getChannels} from './bill/bill';
+import {getChannel, topUpChannel , openChannel, getPrice, deduct, setChannel, closeChannel} from './channel/channel'
 
 export const resolvers = {
   Query: {
@@ -23,13 +23,16 @@ export const resolvers = {
     setAttAddress,
     getAttAddress,
     getAiList,
-    getPrice,
+    getAiInfo,
     getAiDetails,
+    getPrice,
     transfer,
     closeChannel,
     openChannel,
     topUpChannel,
-    settleChannel,
-    getChannels
+    getChannel,
+    deduct,    
+    getChannels,
+    setChannel
   }
 };

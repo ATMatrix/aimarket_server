@@ -37,12 +37,15 @@ type Query {
     getAiList(params:String):Message!
     getAiDetails(id:Int!):Message!
     transfer(params:String):Message!
-    closeChannel(params:String):Message!
-    getPrice(params:String):Message!
-    openChannel(params:String):Message!
-    topUpChannel(params:String):Message!
-    settleChannel(params:String):Message!
+    closeChannel(params:String!):Message!
+    getPrice(params:String!):Message!
+    openChannel(params:String!):Message!
+    topUpChannel(params:String!):Message!
     getChannels(params:String):Message!
+    getChannel(params:String!):Message!
+    getAiInfo(params:String!):Message!
+    deduct(params:String!):Message!
+    setChannel(params:String!):Message!
 }
 
 schema {
