@@ -14,7 +14,7 @@ const codes = {
 
 export async function callAI() {
   const params = JSON.parse(arguments[1].params)
-
+  console.log("callAI params", params);
   try {
     const res = await query(params)
     return new Message(metType, codes.success, res)

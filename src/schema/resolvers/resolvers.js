@@ -10,7 +10,7 @@ import {loginUser} from './user/loginUser';
 import {addUser} from './user/addUser';
 import {callAI} from './ai/callAI';
 import {setAttAddress, getAttAddress} from './user/setAttAddress';
-import {getAiList, getAiDetails, getAiInfo} from './ai/getAiList';
+import {getAiList, getAiDetails, getAiListInfo} from './ai/getAiList';
 import {transfer, getChannels} from './bill/bill';
 import {getChannel, topUpChannel , openChannel, getPrice, deduct, setChannel, closeChannel} from './channel/channel'
 
@@ -23,7 +23,7 @@ export const resolvers = {
     setAttAddress,
     getAttAddress,
     getAiList,
-    getAiInfo,
+    getAiListInfo,
     getAiDetails,
     getPrice,
     transfer,

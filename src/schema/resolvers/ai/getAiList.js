@@ -42,14 +42,14 @@ export async function getAiDetails() {
     }
 }
 
-export async function getAiInfo() {
+export async function getAiListInfo() {
     try {
         let params = JSON.parse(arguments[1].params)
         //访问数据库Dao
-        let getAddrObj = await baseDao('aiDao', 'getAiInfo', params);
+        let getAddrObj = await baseDao('aiDao', 'getAiListInfo', params);
         console.log("getAiInfo", getAddrObj);
         let content = JSON.stringify(getAddrObj);
-        let type = "getAiInfo";
+        let type = "getAiListInfo";
         let code = "600001";
         return new Message(type, code, content);
     }

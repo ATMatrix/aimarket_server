@@ -5,8 +5,8 @@
 'use strict';
 
 import {getAiList} from './getAiList'
-import {getAiDetails} from './getAiDetails'
-import {getAiInfo} from './getAiInfo'
+import {getAiDetails, getAiInfo} from './getAiDetails'
+import {getAiListInfo} from './getAiListInfo'
 
 
 //aiDao
@@ -31,3 +31,4 @@ let dao = {};
 dao.getAiList=getAiList;
 dao.getAiDetails = getAiDetails
 dao.getAiInfo = getAiInfo
+dao.getAiListInfo = getAiListInfo

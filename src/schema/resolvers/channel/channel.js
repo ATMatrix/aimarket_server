@@ -99,7 +99,9 @@ export async function getPrice() {
       let code = "600001";
       let params = JSON.parse(arguments[1].params);
       let ai_id = Buffer.from(params.ai_id, 'utf8').toString("hex")
+      console.log("getPrice params", params);
       content = await bill.getPrice(ai_id, params.sender_addr);
+      console.log("getPrice content", content);
       return new Message(type, code, content);
     } catch (err) {
       console.log(err);

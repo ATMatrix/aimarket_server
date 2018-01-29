@@ -43,7 +43,7 @@ type Query {
     topUpChannel(params:String!):Message!
     getChannels(params:String):Message!
     getChannel(params:String!):Message!
-    getAiInfo(params:String!):Message!
+    getAiListInfo(params:String!):Message!
     deduct(params:String!):Message!
     setChannel(params:String!):Message!
 }

@@ -10,7 +10,7 @@ import postInterceptor from '../interceptor/postInterceptor'
 //连接DB
 import {poolConnection} from '../../util/database';
 
-export function getAiInfo(module, method, params) {
+export function getAiListInfo(module, method, params) {
   //some code
   console.log('aiDao-getAiInfo');
   if (params !== undefined) {
