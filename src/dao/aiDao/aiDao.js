@@ -4,8 +4,8 @@
 
 'use strict';
 
-import {getAiList} from './getAiList'
-import {getAiDetails, getAiInfo} from './getAiDetails'
+import {getAiList, getAiInfo} from './getAiList'
+import {getAiDetails} from './getAiDetails'
 import {getAiListInfo} from './getAiListInfo'
 
 
