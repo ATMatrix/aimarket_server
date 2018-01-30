@@ -22,3 +22,5 @@ package-lock.json
 # Test
 /src/test
 /production/test
+/config
+/sql
