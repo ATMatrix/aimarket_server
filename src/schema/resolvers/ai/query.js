@@ -3,6 +3,7 @@ import config from '../../../../config/worker'
 
 export default async (params) => {
   const aiName = params.type
+  console.log('333333333333shiwen',params)
   const workerConf = config[aiName]
   console.log("----workerConf----", workerConf);
   const Worker = workers[aiName]

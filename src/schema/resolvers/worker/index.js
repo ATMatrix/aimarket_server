@@ -1,13 +1,17 @@
-import aliFace from './aliFace'
+import aliface from './aliface'
 import baiduNlp from './baiduNlp'
 import baiduOcr from './baiduOcr'
-import xiaoI from './xiaoI'
-import xunFei from './xunFei'
+import xiaoi from './xiaoi'
+import xunfei from './xunfei'
+import azureVision from './azureVision'
+import ibmToneAnalyze from './ibmToneAnalyze'
 
 export default {
-  aliFace: aliFace,
+  aliface: aliface,
   baiduNlp: baiduNlp,
   baiduOcr: baiduOcr,
-  xiaoi: xiaoI,
-  xunfei: xunFei,
+  xiaoi: xiaoi,
+  xunfei: xunfei,
+  azureVision: azureVision,
+  ibmToneAnalyze: ibmToneAnalyze
 }

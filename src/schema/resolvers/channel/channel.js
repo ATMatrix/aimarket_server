@@ -7,6 +7,7 @@
 import {Message} from '../../objects';
 import {baseDao} from '../../../dao/baseDao';
 const unirest = require("unirest");
+import query from '../ai/query';
 const URaidenBilling = require("../../../util/raiden/uraiden/uraidenBilling")
 const uraidenServerUrl = 'http://127.0.0.1:5000';
 const bill = new URaidenBilling(uraidenServerUrl);
@@ -117,14 +118,19 @@ export async function deduct() {
       let params = JSON.parse(arguments[1].params);
       let ai_id = Buffer.from(params.ai_id, 'utf8').toString("hex")    
       console.log("deduct params: ", params);
-      let res = await bill.bill(ai_id, params.account, params.receiver, params.block, params.balance, params.price, params.balance_signature)
+      let res = false;
+      console.log("params.balance_signature", params.balance_signature);
+      if(params.balance_signature === "free")res = true;
+      else res = await bill.bill(ai_id, params.account, params.receiver, params.block, params.balance, params.price, params.balance_signature)
       console.log("======res======", res);
-    //   if(res === true){   
-    //     content = await query({type:params.ai_id, question : params.input});
-    //     console.log(content);
-    //   }
-
-      return new Message(type, code, res);
+      if(res == true){   
+        console.log('shiwenshiwen',params.input);
+        params.input.type = params.ai_id
+        content = await query(params.input);
+        content = JSON.stringify(content);
+        console.log("content", content);
+      }
+      return new Message(type, code, content);
     } catch (err) {
       console.log(err);
       return new Message("error", "400001", err);

@@ -35,8 +35,10 @@ export async function transfer() {
     console.log("transfer params: ", params);
     let res = await bill.bill(ai_id, params.sender_addr, params.receiver_addr, params.opening_block, params.balance, params.price, params.balance_signature)
     console.log("======res======", res);
-    if(res === true){   
-      content = await query({type:params.ai_id, question : params.input});
+    if(res == true){   
+      console.log('shiwenshiwen',params.input);
+      params.input['type'] = params.ai_id
+      content = await query(params.input);
       console.log(content);
     }
     return new Message(type, code, content);
