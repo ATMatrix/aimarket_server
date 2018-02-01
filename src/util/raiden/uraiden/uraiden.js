@@ -147,7 +147,7 @@ class MicroRaiden {
     // let a = await token.balanceOf(account.address, callConf);
     // console.log(a);
     console.log("==========close channel start======")
-    let res = await this.closeRequest(account.address, block_number, balance);
+    let res = await this.closeRequest(receiver_address, block_number, balance);
     let closeSign = res.body.close_signature;
     let result = {close_signature: closeSign};
     // let params = [
