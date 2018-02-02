@@ -129,7 +129,7 @@ export async function deduct() {
         params.input.type = params.ai_id
         if(params.ai_id === 'xiaoi') {
             console.log("xiaoi api")
-            let uri = `http://10.0.10.146:3000/ai/api/1/callxiaoi`;
+            let uri = `http://118.31.18.101:4020/ai/api/1/callxiaoi`;
             let question = params.input;
             const opts = {
             uri,
