@@ -11,6 +11,7 @@ import query from '../ai/query';
 const URaidenBilling = require("../../../util/raiden/uraiden/uraidenBilling")
 const uraidenServerUrl = 'http://127.0.0.1:5000';
 const bill = new URaidenBilling(uraidenServerUrl);
+const rp = require('request-promise')
 
 
 export async function getChannel() {
@@ -121,12 +122,23 @@ export async function deduct() {
       let res = false;
       console.log("params.balance_signature", params.balance_signature);
       if(params.balance_signature === "free")res = true;
-      else res = await bill.bill(ai_id, params.account, params.receiver, params.block, params.balance, params.price, params.balance_signature)
+    //   else res = await bill.bill(ai_id, params.account, params.receiver, params.block, params.balance, params.price, params.balance_signature)
       console.log("======res======", res);
-      if(res == true){   
+
+      if(true){   
         console.log('shiwenshiwen',params.input);
         params.input.type = params.ai_id
-        content = await query(params.input);
+        if(params.ai_id === 'xiaoi') {
+            let uri = `http://10.0.10.146:3000/ai/api/1/callxiaoi`;
+            let question = params.input;
+            const opts = {
+            uri,
+            body: question,
+            json: true,
+            }
+            content = await rp.post(opts);
+        }
+        else content = await query(params.input);
         content = JSON.stringify(content);
         console.log("content", content);
       }
