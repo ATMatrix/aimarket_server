@@ -122,13 +122,13 @@ export async function deduct() {
       let res = false;
       console.log("params.balance_signature", params.balance_signature);
       if(params.balance_signature === "free")res = true;
-    //   else res = await bill.bill(ai_id, params.account, params.receiver, params.block, params.balance, params.price, params.balance_signature)
+      else res = await bill.bill(ai_id, params.account, params.receiver, params.block, params.balance, params.price, params.balance_signature)
       console.log("======res======", res);
-
-      if(true){   
+      if(res == true){   
         console.log('shiwenshiwen',params.input);
         params.input.type = params.ai_id
         if(params.ai_id === 'xiaoi') {
+            console.log("xiaoi api")
             let uri = `http://10.0.10.146:3000/ai/api/1/callxiaoi`;
             let question = params.input;
             const opts = {
