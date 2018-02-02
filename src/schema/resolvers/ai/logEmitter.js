@@ -94,7 +94,8 @@ module.exports.callAI = async (socket, msg) => {
     eventWorker.watch((err, res)=>{
       console.log('============worker=============')
       console.log(res)
-      if(!err && res.args._callID.equals(callID)) {
+      console.log("callID", callID);
+      if(!err && callID && res.args._callID.equals(callID)) {
         socket.emit('message', {
           stage:'Worker',
           err,
@@ -117,7 +118,8 @@ module.exports.callAI = async (socket, msg) => {
     eventFundsDeduct.watch((err, res)=>{
       console.log('===========deductFunds============')
       console.log(res)
-      if (!err && res.args._callID.equals(callID)) {
+      console.log("callID", callID);
+      if (!err && callID && res.args._callID.equals(callID)) {
         const resp = {
           stage:'DeductFunds',
           err,
@@ -141,7 +143,7 @@ module.exports.callAI = async (socket, msg) => {
     eventNewCallback.watch((err, res)=>{
       console.log('=============result===============')
       console.log(res)
-      if(!err && res.args._callID.equals(callID)) {
+      if(!err && callID && res.args._callID.equals(callID)) {
         const resp = {
           stage:'Results',
           err,

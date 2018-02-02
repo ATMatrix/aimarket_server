@@ -34,6 +34,18 @@ type Query {
     loginUser(user:User!):Message!
     setAttAddress(params:String!):Message!
     getAttAddress(params:String!):Message!
+    getAiList(params:String):Message!
+    getAiDetails(id:Int!):Message!
+    transfer(params:String):Message!
+    closeChannel(params:String!):Message!
+    getPrice(params:String!):Message!
+    openChannel(params:String!):Message!
+    topUpChannel(params:String!):Message!
+    getChannels(params:String):Message!
+    getChannel(params:String!):Message!
+    getAiListInfo(params:String!):Message!
+    deduct(params:String!):Message!
+    setChannel(params:String!):Message!
 }
 
 schema {

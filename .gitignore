@@ -4,7 +4,7 @@
 /production
 
 # dependencies
-/node_modules
+node_modules/
 
 # misc
 yarn.lock
@@ -22,3 +22,5 @@ package-lock.json
 # Test
 /src/test
 /production/test
+/config
+/sql

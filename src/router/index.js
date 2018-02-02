@@ -5,7 +5,9 @@
 'use strict';
 
 import {dbotRouter} from './dbot_router';
+import {billRouter} from './bill_router';
 
 module.exports = {
-  dbotRouter:dbotRouter
+  dbotRouter:dbotRouter,
+  billRouter:billRouter
 };
