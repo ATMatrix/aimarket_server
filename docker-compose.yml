@@ -1,0 +1,10 @@
+version: "3"
+services:
+    redis:
+        image: "redis:4"
+    aimarket_server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "4000:4000"
