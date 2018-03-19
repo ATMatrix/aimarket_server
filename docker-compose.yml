@@ -2,9 +2,27 @@ version: "3"
 services:
     redis:
         image: "redis:4"
-    aimarket_server:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis-data:/data
+    mysql:
+        image: mysql
+        user: mysql
+        volumes:
+            - "/Users/atmatrix/Desktop/mysql_node:/var/lib/mysql"
+        ports:
+            - "3306:3306"
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "5!-AHiq5"
+            MYSQL_USER: "ai_root"
+    aimarket-server:
+        image: aimarket-server
         ports:
             - "4000:4000"
+        depends_on:
+            - mysql
+
+volumes:
+  redis-data:
