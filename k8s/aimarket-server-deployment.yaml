@@ -9,7 +9,7 @@ metadata:
     io.kompose.service: aimarket-server
   name: aimarket-server
 spec:
-  replicas: 1
+  replicas: 3
   strategy: {}
   template:
     metadata:
@@ -20,7 +20,7 @@ spec:
       containers:
       - image: aimarket-server
         name: aimarket-server
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 4000
         resources: {}

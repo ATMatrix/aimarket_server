@@ -9,8 +9,20 @@ import config from '../../config'
 
 const poolConfig = config.database
 
+let ENV = process.env.NODE_ENV
+var poolx;
+if (ENV == 'production') {
+    var poolCluster = mysql.createPoolCluster();
+    poolCluster.add('MASTER', poolConfig.master); // add a named configuration
+    poolCluster.add('SLAVE1', poolConfig.slave1);
+    // poolx = poolCluster.of('MSTER');
+    poolx = poolCluster;
+    console.log(poolx);
+} else {
+    poolx = mysql.createPool(poolConfig)
+}
 //创建连接
-export const pool = mysql.createPool(poolConfig);
+var pool = poolx;
 
 //打开连接
 export function poolConnection() {
@@ -21,7 +33,7 @@ export function poolConnection() {
                 reject(err);
             }
             resolve(connection);
-            console.log("rdsConnet");
+            console.log("dbConnet");
             console.log('connected as id ' + connection.threadId);
         });
     });
@@ -49,20 +61,20 @@ export const poolEnd = function () {
     });
 };
 
-pool.on('acquire', function (connection) {
-    console.log('Connection %d acquired', connection.threadId);
-});
+// pool.on('acquire', function (connection) {
+//     console.log('Connection %d acquired', connection.threadId);
+// });
 
 
-pool.on('connection', function (connection) {
-    // connection.query('SET SESSION auto_increment_increment=1')
-});
+// pool.on('connection', function (connection) {
+//     // connection.query('SET SESSION auto_increment_increment=1')
+// });
 
-pool.on('enqueue', function () {
-    console.log('Waiting for available connection slot');
-});
+// pool.on('enqueue', function () {
+//     console.log('Waiting for available connection slot');
+// });
 
 
-pool.on('release', function (connection) {
-    console.log('Connection %d released', connection.threadId);
-});
+// pool.on('release', function (connection) {
+//     console.log('Connection %d released', connection.threadId);
+// });

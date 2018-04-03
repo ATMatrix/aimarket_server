@@ -42,6 +42,7 @@
     "graphql": "^0.10.5",
     "graphql-server-express": "^1.1.2",
     "graphql-tools": "^1.2.2",
+    "ioredis": "^3.2.2",
     "moment": "^2.18.1",
     "mysql": "^2.14.1",
     "node-fetch": "^1.7.3",

@@ -24,3 +24,6 @@ package-lock.json
 /production/test
 /config
 /sql
+/k8s/mongdb
+
+*.tgz

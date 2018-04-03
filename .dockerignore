@@ -1,0 +1,13 @@
+.git
+.diea
+Dockerfile
+.DS_Store
+.gitignore
+README.md
+production
+note
+node_modules
+k8s
+yarn.lock
+npm-debug.log*
+package-lock.json

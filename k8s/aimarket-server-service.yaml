@@ -9,9 +9,10 @@ metadata:
     io.kompose.service: aimarket-server
   name: aimarket-server
 spec:
-  ports:
-  - name: "4000"
-    port: 4000
+  type: NodePort
+  ports: 
+  - name: "32000"
+    port: 32000
     targetPort: 4000
   selector:
     io.kompose.service: aimarket-server
